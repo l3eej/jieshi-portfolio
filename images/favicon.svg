@@ -1,0 +1,4 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="30" y="30" width="140" height="140" rx="28" fill="#069494" transform="rotate(-6 100 100)"/>
+  <text x="100" y="118" font-family="Jost, Arial, sans-serif" font-weight="700" font-size="76" fill="#fff" text-anchor="middle" transform="rotate(-6 100 100)">J</text>
+</svg>

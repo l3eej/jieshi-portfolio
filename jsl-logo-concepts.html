@@ -1,0 +1,420 @@
+<title>JSL Logo Concepts</title>
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Newsreader:ital,wght@1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f6fbf9;
+    --paper-raised: #ffffff;
+    --ink: #141516;
+    --sub: #5c7d78;
+    --line: #d3ece4;
+    --teal: #069494;
+    --teal-dark: #046868;
+    --teal-deep: #0a2622;
+    --teal-soft: #e1f9f4;
+    --dark-ground: #0a1615;
+    --dark-ground-2: #08211f;
+    --dark-line: rgba(255,255,255,.14);
+    --dark-text: #eefaf8;
+    --serif: 'Newsreader', Georgia, serif;
+    --sans: 'Jost', system-ui, sans-serif;
+    --shadow: 0 18px 45px rgba(10,30,28,.10);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0d1817;
+      --paper-raised: #101f1d;
+      --ink: #eefaf8;
+      --sub: #8fbdb4;
+      --line: rgba(255,255,255,.12);
+      --shadow: 0 18px 45px rgba(0,0,0,.4);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #0d1817;
+    --paper-raised: #101f1d;
+    --ink: #eefaf8;
+    --sub: #8fbdb4;
+    --line: rgba(255,255,255,.12);
+    --shadow: 0 18px 45px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem) 6rem;
+  }
+
+  .masthead {
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .eyebrow {
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+
+  h1 {
+    margin: 0;
+    font-family: var(--sans);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    text-transform: uppercase;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1;
+    text-wrap: balance;
+  }
+
+  .masthead p {
+    margin: 0;
+    max-width: 62ch;
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    line-height: 1.6;
+    color: var(--sub);
+  }
+
+  .tokens {
+    display: flex;
+    gap: 1.75rem;
+    flex-wrap: wrap;
+    margin-top: .5rem;
+  }
+
+  .token {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .78rem;
+    color: var(--sub);
+    letter-spacing: .02em;
+  }
+
+  .swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 5px;
+    flex: none;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  @media (max-width: 760px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+  }
+
+  .stage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .panel {
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel--light {
+    background:
+      radial-gradient(120% 90% at 20% 10%, rgba(255,255,255,.9) 0%, transparent 60%),
+      radial-gradient(120% 100% at 90% 100%, rgba(6,148,148,.16) 0%, transparent 65%),
+      linear-gradient(160deg, #fbfffe 0%, #eafaf6 55%, #d3f0e8 100%);
+  }
+
+  .panel--dark {
+    background:
+      radial-gradient(120% 90% at 85% 5%, rgba(6,148,148,.28) 0%, transparent 62%),
+      radial-gradient(120% 100% at 5% 100%, rgba(6,148,148,.22) 0%, transparent 65%),
+      linear-gradient(160deg, #0a1615 0%, #08211f 55%, #062e2b 100%);
+  }
+
+  .panel svg { width: 46%; height: 46%; display: block; }
+  .panel--wordmark svg { width: 78%; height: auto; }
+
+  .meta {
+    padding: 1.4rem 1.5rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+  }
+
+  .meta .name {
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -.01em;
+  }
+
+  .meta .num {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--teal);
+    margin-right: .1em;
+  }
+
+  .meta p {
+    margin: 0;
+    font-size: .88rem;
+    line-height: 1.55;
+    color: var(--sub);
+  }
+
+  footer {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--line);
+    font-size: .85rem;
+    color: var(--sub);
+    line-height: 1.6;
+  }
+
+  footer strong { color: var(--ink); }
+</style>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="eyebrow">Mark Exploration &middot; Jie Shi Lee</div>
+    <h1>Five directions for one signature</h1>
+    <p>Pulled straight from the portfolio's own language: Jost at 700 weight, the teal
+      that runs through every page (<code>#069494</code>), and the soft gradient pools
+      that sit behind the work &mdash; rendered here on both the light and the
+      photography-dark ground, exactly as the site switches between them.</p>
+    <div class="tokens">
+      <span class="token"><span class="swatch" style="background:#069494"></span>Teal &middot; #069494</span>
+      <span class="token"><span class="swatch" style="background:#046868"></span>Teal Dark &middot; #046868</span>
+      <span class="token"><span class="swatch" style="background:#0a1615"></span>Photography Ground &middot; #0a1615</span>
+      <span class="token"><span class="swatch" style="background:#e1f9f4"></span>Seafoam &middot; #e1f9f4</span>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- 1: Aperture J — photography + design duality -->
+    <div class="card">
+      <div class="stage">
+        <div class="panel panel--light">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="ap1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#069494"/>
+                <stop offset="1" stop-color="#046868"/>
+              </linearGradient>
+            </defs>
+            <g fill="url(#ap1)">
+              <path d="M100 100 L100 30 A70 70 0 0 1 160.6 65 Z"/>
+              <path d="M100 100 L160.6 65 A70 70 0 0 1 160.6 135 Z"/>
+              <path d="M100 100 L160.6 135 A70 70 0 0 1 100 170 Z"/>
+              <path d="M100 100 L100 170 A70 70 0 0 1 45 138 Z" opacity=".82"/>
+              <path d="M100 100 L45 138 A70 70 0 0 1 45 62 Z" opacity=".64"/>
+              <path d="M100 100 L45 62 A70 70 0 0 1 100 30 Z" opacity=".46"/>
+            </g>
+            <circle cx="100" cy="100" r="24" fill="var(--paper, #fff)"/>
+            <path d="M92 84 L92 128 M92 84 L112 84 A14 14 0 0 1 112 108 L92 108 M92 108 L114 128" stroke="#046868" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(-2 -2) scale(0.62) translate(60 60)"/>
+          </svg>
+        </div>
+        <div class="panel panel--dark">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#069494">
+              <path d="M100 100 L100 30 A70 70 0 0 1 160.6 65 Z"/>
+              <path d="M100 100 L160.6 65 A70 70 0 0 1 160.6 135 Z"/>
+              <path d="M100 100 L160.6 135 A70 70 0 0 1 100 170 Z"/>
+              <path d="M100 100 L100 170 A70 70 0 0 1 45 138 Z" opacity=".78"/>
+              <path d="M100 100 L45 138 A70 70 0 0 1 45 62 Z" opacity=".58"/>
+              <path d="M100 100 L45 62 A70 70 0 0 1 100 30 Z" opacity=".4"/>
+            </g>
+            <circle cx="100" cy="100" r="24" fill="#0a1615"/>
+          </svg>
+        </div>
+      </div>
+      <div class="meta">
+        <div class="name"><span class="num">01</span>Aperture Mark</div>
+        <p>Six blades of a lens iris, tuned to the same fall-off as the background
+          blobs &mdash; the shutter closing around a blank centre reads as both
+          "camera" and "focal point," the two things the portfolio is actually about.</p>
+      </div>
+    </div>
+
+    <!-- 2: JL wave monogram -->
+    <div class="card">
+      <div class="stage">
+        <div class="panel panel--light">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="wv1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#0aa8a4"/>
+                <stop offset="1" stop-color="#046868"/>
+              </linearGradient>
+            </defs>
+            <path d="M56 36 C40 36 30 52 30 76 C30 112 30 132 30 132" fill="none" stroke="url(#wv1)" stroke-width="18" stroke-linecap="round"/>
+            <path d="M92 36 L92 118 C92 148 116 164 146 152" fill="none" stroke="url(#wv1)" stroke-width="18" stroke-linecap="round"/>
+            <path d="M92 118 L146 164" fill="none" stroke="url(#wv1)" stroke-width="18" stroke-linecap="round" opacity="0"/>
+            <path d="M132 100 L164 132" fill="none" stroke="#046868" stroke-width="18" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="panel panel--dark">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M56 36 C40 36 30 52 30 76 C30 112 30 132 30 132" fill="none" stroke="#1fc2bd" stroke-width="18" stroke-linecap="round"/>
+            <path d="M92 36 L92 118 C92 148 116 164 146 152" fill="none" stroke="#1fc2bd" stroke-width="18" stroke-linecap="round"/>
+            <path d="M132 100 L164 132" fill="none" stroke="#0d726f" stroke-width="18" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="meta">
+        <div class="name"><span class="num">02</span>Wave Monogram &middot; JL</div>
+        <p>J and L drawn as one continuous, curved stroke &mdash; the same soft,
+          water-like line that drifts through the site's backgrounds, just pulled
+          tight enough to read as initials at a glance.</p>
+      </div>
+    </div>
+
+    <!-- 3: Primary wordmark -->
+    <div class="card">
+      <div class="stage">
+        <div class="panel panel--light panel--wordmark">
+          <svg viewBox="0 0 400 90" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="58" font-family="Jost, sans-serif" font-weight="700" font-size="54" letter-spacing="-1" fill="#141516">JIE SHI<tspan fill="#069494">.</tspan></text>
+            <text x="0" y="58" font-family="Jost, sans-serif" font-weight="700" font-size="54" letter-spacing="-1" fill="transparent">JIE SHI</text>
+          </svg>
+        </div>
+        <div class="panel panel--dark panel--wordmark">
+          <svg viewBox="0 0 400 90" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="58" font-family="Jost, sans-serif" font-weight="700" font-size="54" letter-spacing="-1" fill="#eefaf8">JIE SHI<tspan fill="#1fc2bd">.</tspan></text>
+          </svg>
+        </div>
+      </div>
+      <div class="meta">
+        <div class="name"><span class="num">03</span>Primary Wordmark</div>
+        <p>Straight off the hero's own name treatment &mdash; bold, uppercase, tight
+          tracking &mdash; with a single teal full stop standing in for "Lee." The
+          most reusable mark: header, email signature, business card.</p>
+      </div>
+    </div>
+
+    <!-- 4: Hex frame J -->
+    <div class="card">
+      <div class="stage">
+        <div class="panel panel--light">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="hx1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#7fd9d2"/>
+                <stop offset=".55" stop-color="#069494"/>
+                <stop offset="1" stop-color="#046868"/>
+              </linearGradient>
+            </defs>
+            <polygon points="100,18 165,55 165,145 100,182 35,145 35,55" fill="url(#hx1)"/>
+            <text x="100" y="128" font-family="Jost, sans-serif" font-weight="700" font-size="90" fill="#fff" text-anchor="middle">J</text>
+          </svg>
+        </div>
+        <div class="panel panel--dark">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="100,18 165,55 165,145 100,182 35,145 35,55" fill="none" stroke="#069494" stroke-width="5"/>
+            <text x="100" y="128" font-family="Jost, sans-serif" font-weight="700" font-size="90" fill="#eefaf8" text-anchor="middle">J</text>
+          </svg>
+        </div>
+      </div>
+      <div class="meta">
+        <div class="name"><span class="num">04</span>Hex Frame</div>
+        <p>The hexagon is the site's own hairline motif, borrowed here as a badge
+          for a single initial. Solid on light, outlined on dark &mdash; built to
+          survive being shrunk to a 32px favicon.</p>
+      </div>
+    </div>
+
+    <!-- 5: Editorial signature -->
+    <div class="card">
+      <div class="stage">
+        <div class="panel panel--light panel--wordmark">
+          <svg viewBox="0 0 400 110" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="70" font-family="Newsreader, Georgia, serif" font-style="italic" font-weight="500" font-size="58" fill="#141516">js</text>
+            <circle cx="152" cy="30" r="9" fill="#069494"/>
+          </svg>
+        </div>
+        <div class="panel panel--dark panel--wordmark">
+          <svg viewBox="0 0 400 110" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="70" font-family="Newsreader, Georgia, serif" font-style="italic" font-weight="500" font-size="58" fill="#eefaf8">js</text>
+            <circle cx="152" cy="30" r="9" fill="#1fc2bd"/>
+          </svg>
+        </div>
+      </div>
+      <div class="meta">
+        <div class="name"><span class="num">05</span>Editorial Signature</div>
+        <p>Borrows Newsreader italic &mdash; the same serif the site reserves for
+          quotes and the media shelf &mdash; for a quieter, personal mark. Pairs
+          well as a sign-off on the Photography and About pages specifically.</p>
+      </div>
+    </div>
+
+    <!-- 6: Stacked tiles favicon set -->
+    <div class="card">
+      <div class="stage" style="grid-template-columns: 1fr 1fr;">
+        <div class="panel panel--light">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="30" width="140" height="140" rx="28" fill="#069494" transform="rotate(-6 100 100)"/>
+            <text x="100" y="118" font-family="Jost, sans-serif" font-weight="700" font-size="76" fill="#fff" text-anchor="middle" transform="rotate(-6 100 100)">J</text>
+          </svg>
+        </div>
+        <div class="panel panel--dark">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="30" width="140" height="140" rx="28" fill="#eefaf8" transform="rotate(-6 100 100)"/>
+            <text x="100" y="118" font-family="Jost, sans-serif" font-weight="700" font-size="76" fill="#08211f" text-anchor="middle" transform="rotate(-6 100 100)">J</text>
+          </svg>
+        </div>
+      </div>
+      <div class="meta">
+        <div class="name"><span class="num">06</span>Tilted Tile</div>
+        <p>A rounded square tipped 6&deg;, echoing the tilt every project card on
+          the homepage rests at before it straightens on hover. Reads cleanly as
+          a tab icon or app tile at any size.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <strong>Recommendation:</strong> pair <strong>03 &middot; Primary Wordmark</strong> for
+    full-width use (site header, resume, PDF exports) with <strong>06 &middot; Tilted Tile</strong>
+    as the compact mark (favicon, social avatar) &mdash; between them they cover every
+    size the current site already needs, without introducing a font or colour the
+    portfolio doesn't already use.
+  </footer>
+
+</div>

@@ -1,0 +1,3877 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jie Shi Lee — Product Designer & Photographer</title>
+
+  <!-- Favicon: logo concept 06 "Tilted Tile" from jsl-logo-concepts.html —
+       the teal rounded tile with a white J, tipped -6°. -->
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+
+  <!-- Jost = free geometric sans in the spirit of Futura -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* =========================================================================
+   THEME TOKENS
+   ========================================================================= */
+    :root {
+      --bg: #eaf8f5;
+      /* fresh seafoam canvas */
+      --ink: #17181a;
+      /* near-black — name, primary text */
+      --muted: #069494;
+      /* teal pop — the big role line */
+      --sub: #526f6b;
+      /* refined slate-teal mid grey */
+      --line: #c8ece5;
+      /* hairline dividers */
+      --teal: #069494;
+      /* primary signature teal */
+      --teal-secondary: #e1f9f4;
+      /* secondary vibrant seafoam */
+      --teal-dark: #046868;
+      /* deep teal for contrast */
+      --teal-soft: #e1f9f4;
+      /* soft seafoam tint */
+      --teal-glow: rgba(6, 148, 148, 0.18);
+      /* luminous glow */
+      --accent: var(--teal);
+      /* interactive accents */
+
+      --maxw: 1400px;
+      --gutter: clamp(1.25rem, 5vw, 5rem);
+
+      --ease: cubic-bezier(.22, .61, .36, 1);
+    }
+
+    ::selection {
+      background: var(--teal);
+      color: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Jost', system-ui, sans-serif;
+      background-color: #f4fdfb;
+      color: var(--ink);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+      transition: color .7s var(--ease);
+    }
+
+    /* Page-specific desktop cursors. Touch devices keep their native behavior. */
+    @media (hover: hover) and (pointer: fine) {
+
+      body[data-cursor-view="home"],
+      body[data-cursor-view="home"] *,
+      body[data-cursor-view="work"],
+      body[data-cursor-view="work"] *,
+      body[data-cursor-view="detail"],
+      body[data-cursor-view="detail"] * {
+        cursor: url("images/cursor-arrow.svg") 4 4, default !important;
+      }
+
+      body[data-cursor-view="about"],
+      body[data-cursor-view="about"] * {
+        cursor: url("images/tennis-ball-cursor.png") 24 24, default !important;
+      }
+
+      body[data-cursor-view="photography"],
+      body[data-cursor-view="photography"] * {
+        cursor: url("images/camera-cursor.png") 24 24, default !important;
+      }
+
+      /* Fires on the cursor icon itself: opening a photo swaps the camera
+         cursor for the same emoji with its flash bulb lit, for one beat,
+         as if it just took the shot. The extra class outranks the rule
+         above on specificity while both stay !important. */
+      body.is-camera-flash[data-cursor-view="photography"],
+      body.is-camera-flash[data-cursor-view="photography"] * {
+        cursor: url("images/camera-cursor-flash.png") 24 24, default !important;
+      }
+    }
+
+    /* fixed, full-viewport backdrop layers — crossfaded on navigation so the
+       page never hard-cuts between the light and photography (dark) themes */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      transition: opacity .9s var(--ease);
+      /* rendered larger than the viewport so it can slowly pan without ever
+         showing an edge — the "water" drift lives in background-position.
+         First layer (grain) stays at its native tile size — scaling it up
+         with the rest would stretch the fine noise into coarse blotches. */
+      background-size: 220px 220px, 140% 140%, 140% 140%, 140% 140%, 140% 140%, 140% 140%;
+      background-position: 50% 50%;
+    }
+
+    /* very subtle, slow drift — like a slow tide, not an obvious animation */
+    @media (prefers-reduced-motion: no-preference) {
+      .bg-layer {
+        animation: bg-drift 48s ease-in-out infinite;
+      }
+    }
+
+    @keyframes bg-drift {
+      0% {
+        background-position: 50% 50%;
+      }
+
+      25% {
+        background-position: 57% 54%;
+      }
+
+      50% {
+        background-position: 53% 60%;
+      }
+
+      75% {
+        background-position: 45% 55%;
+      }
+
+      100% {
+        background-position: 50% 50%;
+      }
+    }
+
+    .bg-light {
+      opacity: 1;
+      background-color: #f4fdfb;
+      background-image:
+        /* Subtle aesthetic grain overlay — keeps the depth from reading flat */
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E"),
+        /* Bright key-light in the upper-left to keep the canvas feeling clean */
+        radial-gradient(52% 45% at 18% 12%, rgba(255, 255, 255, .95) 0%, rgba(255, 255, 255, 0) 72%),
+        /* Two large, soft teal mesh blobs — the primary depth cue */
+        radial-gradient(78% 62% at 96% 4%, rgba(6, 148, 148, .38) 0%, rgba(6, 148, 148, 0) 58%),
+        radial-gradient(85% 65% at -4% 98%, rgba(4, 104, 104, .34) 0%, rgba(4, 104, 104, 0) 60%),
+        /* Smaller mid-tone accent to break up the negative space */
+        radial-gradient(46% 40% at 78% 78%, rgba(6, 148, 148, .20) 0%, rgba(6, 148, 148, 0) 68%),
+        /* Ambient vertical base so the blobs have somewhere to sit */
+        linear-gradient(165deg, #fbfffe 0%, #eafaf6 45%, #d3f0e8 100%);
+    }
+
+    .bg-dark {
+      opacity: 0;
+      background-color: #081615;
+      background-image:
+        /* Same grain as the light theme — same texture, just the color changes */
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E"),
+        /* Dim teal key-light, upper-left — same position as the light theme's white glow */
+        radial-gradient(52% 45% at 18% 12%, rgba(6, 148, 148, .30) 0%, rgba(6, 148, 148, 0) 72%),
+        /* Two large teal mesh blobs, same geometry as the light theme, brighter for contrast against near-black */
+        radial-gradient(78% 62% at 96% 4%, rgba(6, 148, 148, .48) 0%, rgba(6, 148, 148, 0) 60%),
+        radial-gradient(85% 65% at -4% 98%, rgba(6, 148, 148, .40) 0%, rgba(6, 148, 148, 0) 62%),
+        /* Smaller mid-tone accent, bottom-right */
+        radial-gradient(46% 40% at 78% 78%, rgba(6, 148, 148, .22) 0%, rgba(6, 148, 148, 0) 70%),
+        /* Near-black ambient base with a whisper of deep teal */
+        linear-gradient(165deg, #0a1615 0%, #08211f 45%, #062e2b 100%);
+    }
+
+    body.is-photography {
+      color: #eefaf8;
+    }
+
+    body.is-photography .bg-light {
+      opacity: 0;
+    }
+
+    body.is-photography .bg-dark {
+      opacity: 1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* =========================================================================
+   VIEW SWITCHING  (home  <->  project detail)
+   Phase 2 fills in the detail view; Phase 3 fills in the gallery.
+   ========================================================================= */
+    .view {
+      display: none;
+    }
+
+    .view.is-active {
+      display: block;
+    }
+
+    /* =========================================================================
+   HOME / HERO
+   ========================================================================= */
+    .hero {
+      height: 100svh;
+      max-width: var(--maxw);
+      margin-inline: auto;
+      padding: clamp(1.25rem, 3vw, 2.5rem) var(--gutter) clamp(1.5rem, 3vw, 3rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* top line: location + email */
+    .hero__contact {
+      position: relative;
+      z-index: 3;
+      font-size: clamp(.72rem, 1vw, .85rem);
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      line-height: 1.25;
+      margin-top: clamp(1rem, 3vw, 2rem);
+    }
+
+    .hero__contact .loc {
+      color: var(--ink);
+    }
+
+    .hero__contact .mail {
+      color: var(--sub);
+      display: block;
+    }
+
+    .hero__contact .mail:hover {
+      color: var(--teal);
+    }
+
+    /* the name — the loudest thing on the page */
+    .hero__name {
+      position: relative;
+      z-index: 3;
+      font-weight: 700;
+      font-size: clamp(2.5rem, 10vw, 8.5rem);
+      line-height: .92;
+      letter-spacing: -.02em;
+      margin-top: clamp(1rem, 2.5vw, 2rem);
+      text-transform: uppercase;
+    }
+
+    /* the floating work gallery lives here */
+    .hero__stage {
+      width: 100%;
+      flex: 1 1 auto;
+      min-height: 0;
+      margin: clamp(.75rem, 2vw, 1.5rem) 0;
+      position: relative;
+      z-index: 1;
+    }
+
+
+
+    /* scattered thumbnails: item = mouse-parallax layer, orbit = auto-drift */
+    .gallery {
+      position: absolute;
+      inset: 0;
+    }
+
+    .gallery__item {
+      position: absolute;
+      will-change: transform;
+      /* JS sets mouse-parallax here */
+    }
+
+    .gallery__orbit {
+      position: relative;
+      width: var(--w);
+      transform: translate(-50%, -50%);
+      /* centre on the item's point */
+      animation: drift var(--dur, 13s) ease-in-out var(--delay, 0s) infinite;
+      will-change: transform;
+    }
+
+    /* hover shadow lives here as a pre-rendered layer that fades in via
+       opacity (compositor-only) — transitioning box-shadow itself repaints
+       the big blur on the CPU every frame, which is what made hovering to
+       click feel janky */
+    .gallery__orbit::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: 14px;
+      box-shadow: 0 32px 64px rgba(20, 24, 26, .28);
+      opacity: 0;
+      transition: opacity .25s var(--ease), transform .25s var(--ease);
+      pointer-events: none;
+    }
+
+    .gallery__item:hover .gallery__orbit::after {
+      opacity: 1;
+      transform: scale(1.06);
+    }
+
+    .gallery__card {
+      position: relative;
+      display: block;
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      background: #eee;
+      box-shadow: 0 18px 45px rgba(20, 24, 26, .18);
+      transform: rotate(var(--rot, 0deg));
+      transition: transform .25s var(--ease);
+      will-change: transform;
+      cursor: pointer;
+    }
+
+    .gallery__card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery__card .imgfallback {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+      border-radius: 0;
+    }
+
+    .gallery__item:hover {
+      z-index: 30;
+    }
+
+    .gallery__item:hover .gallery__orbit {
+      animation-play-state: paused;
+    }
+
+    .gallery__item:hover .gallery__card {
+      transform: rotate(0deg) scale(1.06);
+    }
+
+    .gallery__cap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: .9rem .8rem .7rem;
+      font-size: .82rem;
+      font-weight: 500;
+      color: #fff;
+      background: linear-gradient(transparent, rgba(0, 0, 0, .55));
+      opacity: 0;
+      transition: opacity .3s var(--ease);
+    }
+
+    .gallery__card:hover .gallery__cap {
+      opacity: 1;
+    }
+
+    /* slow, wide orbits so the collage breathes; two variants so nothing syncs */
+    @keyframes drift {
+
+      0%,
+      100% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+
+      25% {
+        transform: translate(calc(-50% + 12px), calc(-50% - 18px)) rotate(1.2deg);
+      }
+
+      50% {
+        transform: translate(calc(-50% - 10px), calc(-50% - 5px)) rotate(-1deg);
+      }
+
+      75% {
+        transform: translate(calc(-50% + 6px), calc(-50% + 14px)) rotate(0.7deg);
+      }
+    }
+
+    @keyframes drift2 {
+
+      0%,
+      100% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+
+      33% {
+        transform: translate(calc(-50% - 14px), calc(-50% + 10px)) rotate(-1.2deg);
+      }
+
+      66% {
+        transform: translate(calc(-50% + 11px), calc(-50% - 12px)) rotate(1deg);
+      }
+    }
+
+    /* the role — big, light grey, sits under the work */
+    .hero__role {
+      position: relative;
+      z-index: 3;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 6vw, 4.5rem);
+      line-height: 1.0;
+      letter-spacing: -.01em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    @media (max-width:640px) {
+      .hero {
+        height: 100svh;
+      }
+    }
+
+    /* =========================================================================
+   PROJECT DETAIL  —  gradient hero + parallax, then /arc two-column body
+   ========================================================================= */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .detail {
+      position: relative;
+      overflow-x: clip;
+      background: #ffffff;
+      min-height: 100vh;
+    }
+
+    /* full-bleed gradient hero — ALSO the clipping mask for the rising images */
+    .detail__band {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      height: 100svh;
+      z-index: 0;
+      overflow: hidden;
+      background: var(--grad, linear-gradient(120deg, #c9b8f0, #efb8d0 60%, #f6cfd6));
+    }
+
+    .band__inner {
+      position: relative;
+      height: 100%;
+      max-width: var(--maxw);
+      margin-inline: auto;
+      padding: 0 var(--gutter);
+    }
+
+    .detail__grid {
+      position: relative;
+      z-index: 1;
+      max-width: var(--maxw);
+      margin-inline: auto;
+      padding: 0 var(--gutter) clamp(4rem, 10vw, 8rem);
+      display: grid;
+      grid-template-columns: 210px minmax(0, 1fr);
+      column-gap: clamp(2.5rem, 7vw, 7rem);
+    }
+
+    /* --- left sticky menu: spans hero + content --- */
+    .detail__nav {
+      grid-column: 1;
+      grid-row: 1 / -1;
+      position: sticky;
+      top: clamp(1.5rem, 3vw, 2.5rem);
+      align-self: start;
+      z-index: 4;
+      margin-top: clamp(2.5rem, 10vh, 7.5rem);
+    }
+
+    /* In Hero: White text for high contrast on gradient */
+    .detail__back {
+      display: inline-block;
+      font-size: .95rem;
+      font-weight: 500;
+      line-height: 1.2;
+      color: rgba(255, 255, 255, .95);
+      margin-bottom: clamp(2rem, 4vw, 3rem);
+      transition: color .3s var(--ease), opacity .2s var(--ease);
+    }
+
+    .detail__back:hover {
+      opacity: .75;
+      color: #fff;
+    }
+
+    .detail__menu {
+      display: flex;
+      flex-direction: column;
+      gap: .85rem;
+    }
+
+    .detail__menu a {
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, .65);
+      transition: color .3s var(--ease);
+      width: fit-content;
+    }
+
+    .detail__menu a:hover {
+      color: #ffffff;
+    }
+
+    .detail__menu a.active {
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    /* Scrolled past hero section: Black/Dark text on white background with teal interactive accents */
+    .detail__nav.is-scrolled .detail__back {
+      color: var(--ink);
+    }
+
+    .detail__nav.is-scrolled .detail__back:hover {
+      opacity: 1;
+      color: var(--teal);
+    }
+
+    .detail__nav.is-scrolled .detail__menu a {
+      color: var(--sub);
+    }
+
+    .detail__nav.is-scrolled .detail__menu a:hover {
+      color: var(--teal);
+    }
+
+    .detail__nav.is-scrolled .detail__menu a.active {
+      color: var(--teal);
+      font-weight: 600;
+    }
+
+    /* headline + eyebrow + blurb live as a unified block, aligned at the top with the nav back button */
+    .hero-text {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: clamp(2.5rem, 10vh, 7.5rem);
+      padding-inline: var(--gutter);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+      z-index: 1;
+      /* BEHIND the images */
+    }
+
+    .hero-eyebrow {
+      margin-inline: auto;
+      text-align: center;
+      font-family: 'Jost', system-ui, sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 1.2;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .85);
+      margin-bottom: 21px;
+    }
+
+    .hero-headline {
+      margin-inline: auto;
+      text-align: center;
+      max-width: 22ch;
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(2.2rem, 5vw, 4.75rem);
+      line-height: 1.06;
+      letter-spacing: -.01em;
+      color: #fff;
+      margin-bottom: clamp(14px, 2vh, 20px);
+    }
+
+    .hero-sub {
+      margin-bottom: 0;
+      margin-inline: auto;
+      text-align: center;
+      max-width: min(90vw, 72ch);
+      font-size: clamp(1rem, 1.4vw, 1.2rem);
+      line-height: 1.45;
+      color: rgba(255, 255, 255, .9);
+    }
+
+    /* --- HERO MEDIA BASE ---
+       A fixed-height band that extends BELOW the gradient clip.
+       On scroll, initParallax translates this container smoothly upwards. */
+    .hero-media {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -30vh;
+      height: 79vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 2;
+      will-change: transform;
+    }
+
+    .hero-card {
+      height: 100%;
+      border-radius: 16px 16px 0 0;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 24px 60px rgba(30, 20, 60, .22);
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+    }
+
+    .hero-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-card .imgfallback {
+      height: 100%;
+      aspect-ratio: auto;
+      border-radius: 0;
+    }
+
+    /* === HERO STYLE 1: TRIO (Classic Overlapping 3-Card Stack) === */
+    .hero-media--trio .hero-card,
+    .hero-media:not([class*="hero-media--"]) .hero-card {
+      width: clamp(170px, 23vw, 340px);
+    }
+
+    .hero-media--trio .hero-card:nth-child(1),
+    .hero-media:not([class*="hero-media--"]) .hero-card:nth-child(1),
+    .hero-card--trio-1 {
+      transform: translateY(26px) scale(.87);
+      z-index: 1;
+      margin-right: -30px;
+    }
+
+    .hero-media--trio .hero-card:nth-child(2),
+    .hero-media:not([class*="hero-media--"]) .hero-card:nth-child(2),
+    .hero-card--trio-2 {
+      z-index: 3;
+    }
+
+    .hero-media--trio .hero-card:nth-child(3),
+    .hero-media:not([class*="hero-media--"]) .hero-card:nth-child(3),
+    .hero-card--trio-3 {
+      transform: translateY(26px) scale(.87);
+      z-index: 1;
+      margin-left: -30px;
+    }
+
+    /* === HERO STYLE: TRIO-SVG (Three Freely Positioned SVGs / Graphics) === */
+    .hero-media--trio-svg {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .hero-trio__item {
+      position: absolute;
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .3s var(--ease);
+    }
+
+    .hero-trio__item img,
+    .hero-trio__item svg {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.18));
+    }
+
+    /* =========================================================================
+       TRIO-SVG item positions are now set per-project via heroPos[].
+       Only structural / transition rules live here.
+       ========================================================================= */
+    .hero-trio__item--1 {
+      z-index: 2;
+    }
+
+    .hero-trio__item--2 {
+      z-index: 3;
+    }
+
+    .hero-trio__item--3 {
+      z-index: 2;
+    }
+
+    /* === HERO STYLE 2: SINGLE (Freely Positioned Single SVG / Graphic) === */
+    .hero-media--single {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .hero-single__item {
+      position: absolute;
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .3s var(--ease);
+    }
+
+    .hero-single__item img,
+    .hero-single__item svg {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.18));
+    }
+
+    /* =========================================================================
+       SINGLE-SVG item positions are now set per-project via heroPos[].
+       ========================================================================= */
+    .hero-single__item {
+      position: absolute;
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .3s var(--ease);
+      z-index: 2;
+    }
+
+    /* === HERO STYLE 3: DUO (Two Freely Positioned SVGs / Graphics) === */
+    .hero-media--duo {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .hero-duo__item {
+      position: absolute;
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .3s var(--ease);
+    }
+
+    .hero-duo__item img,
+    .hero-duo__item svg {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.18));
+    }
+
+    /* =========================================================================
+       DUO item positions are now set per-project via heroPos[].
+       ========================================================================= */
+    .hero-duo__item--1 {
+      z-index: 3;
+    }
+
+    .hero-duo__item--2 {
+      z-index: 2;
+    }
+
+    /* === HERO STYLE 4: SPREAD (Fanned-out Multi-Card Horizon) === */
+    .hero-media--spread {
+      gap: 0;
+    }
+
+    .hero-media--spread .hero-card,
+    .hero-card--spread {
+      width: clamp(130px, 17vw, 250px);
+      height: 90%;
+      margin-inline: -16px;
+    }
+
+    .hero-card--spread-1 {
+      transform: translateY(32px) rotate(-5deg);
+      z-index: 1;
+    }
+
+    .hero-card--spread-2 {
+      transform: translateY(14px) rotate(-2deg);
+      z-index: 2;
+    }
+
+    .hero-card--spread-3 {
+      transform: translateY(-4px) rotate(0deg);
+      z-index: 3;
+    }
+
+    .hero-card--spread-4 {
+      transform: translateY(14px) rotate(2deg);
+      z-index: 2;
+    }
+
+    .hero-card--spread-5 {
+      transform: translateY(32px) rotate(5deg);
+      z-index: 1;
+    }
+
+    /* === HERO STYLE 5: DEVICE (Realistic Smartphone Mockup Frame) === */
+    .hero-media--device {
+      height: 83vh;
+    }
+
+    .hero-device {
+      width: clamp(200px, 24vw, 320px);
+      height: 100%;
+      background: #191b22;
+      border-radius: 40px 40px 0 0;
+      padding: 13px 13px 0 13px;
+      box-shadow: 0 36px 90px rgba(10, 10, 25, 0.42), inset 0 0 0 1.5px rgba(255, 255, 255, 0.15);
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-device__speaker {
+      width: 64px;
+      height: 5px;
+      background: #343742;
+      border-radius: 999px;
+      margin: 2px auto 11px;
+      flex-shrink: 0;
+    }
+
+    .hero-device__screen {
+      width: 100%;
+      flex: 1;
+      border-radius: 28px 28px 0 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .hero-device__screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* === HERO STYLE 6: CINEMATIC (16:9 Panoramic Widescreen Banner) === */
+    .hero-media--cinematic .hero-card,
+    .hero-card--cinematic {
+      width: clamp(320px, 72vw, 980px);
+      height: 84%;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 35px 95px rgba(15, 10, 35, 0.35);
+      z-index: 2;
+    }
+
+    /* empty spacer that reserves the hero's height in the grid flow */
+    .detail__herospace {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      height: 100vh;
+    }
+
+    /* --- right column: content sections --- */
+    .detail__main {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .detail__section {
+      margin-bottom: clamp(4rem, 9vw, 7rem);
+      scroll-margin-top: clamp(2rem, 5vw, 4rem);
+    }
+
+    .detail__section:first-child {
+      margin-top: clamp(2rem, 5vw, 3.5rem);
+    }
+
+    .detail__section h2 {
+      font-size: clamp(1.4rem, 2.6vw, 2rem);
+      font-weight: 600;
+      letter-spacing: -.01em;
+      margin-bottom: 1rem;
+    }
+
+    .detail__section p {
+      font-size: clamp(1rem, 1.3vw, 1.15rem);
+      color: #3a3b3d;
+      max-width: 100%;
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+
+    .detail__section p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .detail__section p a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    .detail__section figure {
+      margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .detail__section img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .detail__section figure img,
+    .section-gallery img,
+    .section-mosaic img {
+      cursor: zoom-in;
+      transition: transform .4s var(--ease);
+    }
+
+    .detail__section figure img:hover,
+    .section-gallery img:hover,
+    .section-mosaic img:hover {
+      transform: scale(1.015);
+    }
+
+    /* multi-image sections: a small responsive gallery instead of one figure */
+    .section-gallery {
+      margin-top: clamp(1.5rem, 3vw, 2.5rem);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: clamp(1rem, 2.2vw, 1.5rem);
+    }
+
+    .section-gallery img,
+    .section-gallery .imgfallback {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+    }
+
+    /* photo-essay sections (lots of images): a repeating mosaic rhythm —
+   one full-width photo, then a pair, then a triad, repeating */
+    .section-mosaic {
+      margin-top: clamp(1.5rem, 3vw, 2.5rem);
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: clamp(.75rem, 1.8vw, 1.25rem);
+    }
+
+    .section-mosaic img,
+    .section-mosaic .imgfallback {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .mosaic-big {
+      grid-column: span 6;
+      aspect-ratio: 16/9;
+    }
+
+    .mosaic-half {
+      grid-column: span 3;
+      aspect-ratio: 4/3;
+    }
+
+    .mosaic-third {
+      grid-column: span 2;
+      aspect-ratio: 3/4;
+    }
+
+    @media (max-width:760px) {
+      .section-mosaic {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .mosaic-big {
+        grid-column: span 2;
+      }
+
+      .mosaic-half {
+        grid-column: span 2;
+        aspect-ratio: 16/9;
+      }
+
+      .mosaic-third {
+        grid-column: span 1;
+        aspect-ratio: 1/1;
+      }
+    }
+
+    /* --- lightbox: click any content photo to see it large, with a rail of
+   the other photos from that same section to jump between --- */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(8, 8, 10, .95);
+      display: none;
+      align-items: stretch;
+      justify-content: center;
+      padding: clamp(1.25rem, 4vw, 3rem);
+    }
+
+    .lightbox.is-open {
+      display: flex;
+    }
+
+    .lightbox__stage {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox__img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+
+    .lightbox__rail {
+      flex: 0 0 auto;
+      width: 100px;
+      margin-left: clamp(1rem, 2.5vw, 1.75rem);
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      padding-top: clamp(4rem, 9vw, 5.5rem);
+      /* clears the close (x) button so the first thumb never sits under it */
+    }
+
+    .lightbox__thumb {
+      flex: 0 0 auto;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      border-radius: 8px;
+      overflow: hidden;
+      opacity: .4;
+      transition: opacity .2s var(--ease);
+    }
+
+    .lightbox__thumb img {
+      width: 100%;
+      height: 72px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .lightbox__thumb:hover {
+      opacity: .7;
+    }
+
+    .lightbox__thumb.is-active {
+      opacity: 1;
+      outline: 2px solid #fff;
+      outline-offset: -2px;
+    }
+
+    .lightbox__close,
+    .lightbox__nav {
+      position: absolute;
+      border: 0;
+      cursor: pointer;
+      color: #fff;
+      background: rgba(255, 255, 255, .12);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      transition: background .2s var(--ease);
+    }
+
+    .lightbox__close:hover,
+    .lightbox__nav:hover {
+      background: rgba(255, 255, 255, .24);
+    }
+
+    .lightbox__close {
+      top: clamp(1rem, 2.5vw, 1.75rem);
+      right: clamp(1rem, 2.5vw, 1.75rem);
+      width: 42px;
+      height: 42px;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .lightbox__nav {
+      top: 50%;
+      transform: translateY(-50%);
+      width: 46px;
+      height: 46px;
+      font-size: 1.2rem;
+    }
+
+    .lightbox__nav--prev {
+      left: clamp(.5rem, 2vw, 1.25rem);
+    }
+
+    .lightbox__nav--next {
+      right: clamp(140px, 16vw, 190px);
+    }
+
+    @media (max-width:760px) {
+      .lightbox {
+        flex-direction: column;
+      }
+
+      .lightbox__rail {
+        width: 100%;
+        height: 84px;
+        margin-left: 0;
+        margin-top: .85rem;
+        flex-direction: row;
+        padding-top: 0;
+      }
+
+      .lightbox__thumb img {
+        width: 74px;
+        height: 100%;
+      }
+
+      .lightbox__nav--next {
+        right: clamp(.5rem, 2vw, 1.25rem);
+      }
+    }
+
+    /* image fallback block (shown until real files are dropped in) */
+    .imgfallback {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      background: repeating-linear-gradient(45deg, #f0f0f0 0 14px, #eaeaea 14px 28px);
+      display: grid;
+      place-items: center;
+      color: var(--sub);
+      font-size: .78rem;
+      letter-spacing: .08em;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* --- "more work" cards at the end --- */
+    .detail__more {
+      grid-column: 1 / -1;
+      grid-row: 3;
+      margin-top: clamp(2rem, 5vw, 4rem);
+      padding-top: clamp(2.5rem, 5vw, 4rem);
+      border-top: 1px solid var(--line);
+    }
+
+    .detail__more h3 {
+      font-size: .75rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-bottom: 1.5rem;
+    }
+
+    .more-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: clamp(1rem, 2vw, 1.75rem);
+    }
+
+    .more-card {
+      display: block;
+    }
+
+    .more-card__img {
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: #eee;
+    }
+
+    .more-card__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s var(--ease);
+    }
+
+    .more-card__img .imgfallback {
+      aspect-ratio: 4/3;
+      border-radius: 0;
+    }
+
+    .more-card:hover .more-card__img img {
+      transform: scale(1.04);
+    }
+
+    .more-card__title {
+      margin-top: .7rem;
+      font-weight: 500;
+      font-size: 1.05rem;
+    }
+
+    /* --- mobile: menu collapses to the top --- */
+    @media (max-width:760px) {
+      .detail__band {
+        height: 100vh;
+      }
+
+      .detail__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail__nav {
+        grid-column: 1;
+        grid-row: auto;
+        position: static;
+        margin-top: 0;
+        padding-bottom: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .detail__herospace {
+        grid-column: 1;
+        grid-row: auto;
+        height: calc(68vh - 6rem);
+      }
+
+      .detail__main {
+        grid-column: 1;
+        grid-row: auto;
+        height: 200vh
+      }
+
+      .detail__more {
+        grid-column: 1;
+        grid-row: auto;
+      }
+
+      .detail__menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: .75rem 1.25rem;
+      }
+
+      .hero-text {
+        padding-inline: var(--gutter);
+        top: 7rem;
+        height: auto;
+      }
+
+      .hero-headline {
+        font-size: clamp(1.8rem, 7vw, 2.6rem);
+      }
+
+      .hero-media {
+        height: 62vh;
+        bottom: -27vh;
+      }
+
+      .hero-card {
+        width: clamp(96px, 26vw, 150px);
+      }
+
+      /* === TRIO MOBILE POSITIONS === */
+      .hero-trio__item--1 {
+        left: 3%;
+        bottom: 0vh;
+        width: clamp(95px, 31vw, 140px);
+      }
+
+      .hero-trio__item--2 {
+        left: 50%;
+        bottom: 2vh;
+        width: clamp(120px, 38vw, 170px);
+        transform: translateX(-50%);
+        z-index: 3;
+      }
+
+      .hero-trio__item--3 {
+        right: 3%;
+        bottom: 0vh;
+        width: clamp(95px, 31vw, 140px);
+      }
+
+      /* === SINGLE MOBILE POSITIONS === */
+      .hero-single__item {
+        left: 50%;
+        bottom: 0vh;
+        width: min(92vw, 400px);
+        transform: translateX(-50%);
+      }
+
+      /* === DUO MOBILE POSITIONS === */
+      .hero-duo__item--1 {
+        left: 6%;
+        bottom: 2vh;
+        width: clamp(130px, 42vw, 190px);
+      }
+
+      .hero-duo__item--2 {
+        right: 6%;
+        bottom: 5vh;
+        width: clamp(140px, 45vw, 210px);
+      }
+
+      .hero-media--spread .hero-card,
+      .hero-card--spread {
+        width: clamp(80px, 22vw, 120px);
+        margin-inline: -12px;
+      }
+
+      .hero-device {
+        width: clamp(180px, 50vw, 250px);
+        border-radius: 32px 32px 0 0;
+        padding: 10px 10px 0 10px;
+      }
+
+      .hero-device__screen {
+        border-radius: 22px 22px 0 0;
+      }
+
+      .hero-media--cinematic .hero-card,
+      .hero-card--cinematic {
+        width: min(94vw, 380px);
+        height: 80%;
+      }
+    }
+
+    /* respect reduced-motion */
+    @media (prefers-reduced-motion:reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    /* gallery collapses to a clean tiled grid on mobile (no absolute float) */
+    @media (max-width:760px) {
+      .hero__stage {
+        min-height: 0;
+        margin: 2rem 0;
+      }
+
+      .gallery {
+        position: static;
+        inset: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .gallery__item {
+        position: static;
+        transform: none !important;
+      }
+
+      .gallery__orbit {
+        width: auto;
+        transform: none;
+        animation: none;
+      }
+
+      .gallery__card {
+        transform: none;
+        aspect-ratio: 4/5;
+      }
+
+      .gallery__cap {
+        opacity: 1;
+      }
+    }
+
+    /* respect reduced-motion: keep the scatter, drop the drifting */
+    @media (prefers-reduced-motion:reduce) {
+      .gallery__orbit {
+        animation: none;
+      }
+    }
+
+    /* =========================================================================
+   TOP NAV + WORK INDEX
+   ========================================================================= */
+    .topnav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: clamp(1.1rem, 2.5vw, 1.8rem) var(--gutter);
+      transition: opacity .6s var(--ease);
+    }
+
+    body.intro-open .topnav {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .topnav__home {
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: .01em;
+      color: var(--ink);
+      transition: color .2s var(--ease);
+    }
+
+    .topnav__home:hover {
+      color: var(--teal);
+      opacity: 1;
+    }
+
+    .topnav__links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .topnav__links a {
+      font-size: .92rem;
+      font-weight: 500;
+      color: var(--ink);
+      transition: color .2s var(--ease);
+    }
+
+    .topnav__links a:hover {
+      color: var(--teal);
+      opacity: 1;
+    }
+
+    /* photography theme: nav flips to light-on-dark, crossfading with the background */
+    body.is-photography .topnav__home,
+    body.is-photography .topnav__links a {
+      color: #eefaf8;
+    }
+
+    body.is-photography .topnav__home:hover,
+    body.is-photography .topnav__links a:hover {
+      color: #5be0d3;
+    }
+
+    .work {
+      max-width: var(--maxw);
+      margin-inline: auto;
+      padding: clamp(6rem, 13vh, 9rem) var(--gutter) clamp(4rem, 10vw, 7rem);
+    }
+
+    .work__head {
+      margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    .work__head h1 {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .work__head p {
+      margin-top: .8rem;
+      color: var(--sub);
+      font-size: clamp(1rem, 1.4vw, 1.2rem);
+    }
+
+    .work__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: clamp(1.5rem, 3vw, 2.5rem) clamp(1.25rem, 2.5vw, 2rem);
+    }
+
+    .work-card {
+      display: block;
+    }
+
+    .work-card__img {
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: #eee;
+    }
+
+    .work-card__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s var(--ease);
+    }
+
+    .work-card__img .imgfallback {
+      aspect-ratio: 4/3;
+      border-radius: 0;
+    }
+
+    .work-card:hover .work-card__img img {
+      transform: scale(1.04);
+    }
+
+    .work-card__meta {
+      margin-top: .85rem;
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+    }
+
+    .work-card__title {
+      font-weight: 600;
+      font-size: 1.05rem;
+      transition: color .2s var(--ease);
+    }
+
+    .work-card:hover .work-card__title {
+      color: var(--teal);
+    }
+
+    .work-card__blurb {
+      font-size: .9rem;
+      color: var(--sub);
+    }
+
+    /* =========================================================================
+   ABOUT ME  — bio + a single Reading & Film shelf (books left, films right,
+   the clicked note opens centred in the gap between the two)
+   ========================================================================= */
+    .about {
+      max-width: var(--maxw);
+      margin-inline: auto;
+      padding: clamp(6rem, 13vh, 9rem) var(--gutter) clamp(4rem, 10vw, 7rem);
+    }
+
+    .about__head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) clamp(260px, 32vw, 440px);
+      align-items: stretch;
+      gap: clamp(2rem, 4vw, 3.5rem);
+      margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    .about__photo {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      border-radius: 6px;
+      object-fit: cover;
+      object-position: center top;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .12);
+      background: var(--line);
+      display: block;
+    }
+
+    .about__text {
+      min-width: 0;
+    }
+
+    .about__head h1 {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .about__bio {
+      margin-top: 1.25rem;
+      font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+      line-height: 1.6;
+      color: #3a3b3d;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .bio-highlight-primary {
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .bio-highlight-secondary {
+      color: var(--teal-dark);
+      font-weight: 700;
+    }
+
+    @media (max-width: 640px) {
+      .about__head {
+        grid-template-columns: 1fr;
+      }
+
+      .about__photo {
+        width: 100%;
+        height: clamp(220px, 55vw, 340px);
+      }
+    }
+
+    /* --- shelf section: no more dark card, sits directly on the page bg --- */
+    /* --- shelf section: no more dark card, sits directly on the page bg --- */
+    .shelf-stack {
+      margin-top: clamp(2.5rem, 5vw, 4rem);
+      padding-top: clamp(2rem, 4vw, 3rem);
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(2.25rem, 4.5vw, 3.5rem);
+    }
+
+    .shelf-row {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .shelf-row__label {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+      font-weight: 500;
+      letter-spacing: -.01em;
+      color: var(--ink);
+      margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    }
+
+    /* Styled after the "digital bookshelf" reference: flat paper spines with
+       rough hand-cut edges standing on an invisible baseline — no drawn
+       shelf. A selected spine pulls out into its real front cover (with a
+       readable spine edge) while neighbours lean away, and its note stays
+       anchored below the shelf instead of interrupting the row. */
+    .shelf-unified {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      overflow-x: auto;
+      /* Without an explicit overflow-y, the spec computes it to `auto`
+         too whenever overflow-x isn't `visible` — so this row could pick
+         up its own vertical scrollbar/scroll capture (e.g. a trackpad
+         swipe meant to scroll the page gets caught by the shelf instead)
+         the moment its content's rendered height, including any leaning
+         or popped-open spine, nudges past the row's own box. Locking it
+         to hidden keeps only the intended left-right scroll. */
+      overflow-y: hidden;
+      /* Generous right slack: a spine expands rightward from its own fixed
+         left edge, so a book near the end of the row needs somewhere to
+         scroll into or its far (3D-popped) corner has nowhere to go but
+         off the edge of this row's own scroll viewport. Left slack matters
+         too: opening any spine tips its left neighbours away (leaning
+         left, see applyLean) by up to ~6.5°, which shifts a ~330px-tall
+         spine's top corner roughly 40px further left than its resting
+         box — with only a few px of padding that tipped top edge gets
+         clipped by this row's own scroll boundary, i.e. the FIRST book
+         visibly getting cut off the moment you open the second or third
+         one. */
+      padding: 42px clamp(90px, 22vw, 200px) 18px clamp(48px, 10vw, 90px);
+      scrollbar-width: thin;
+      position: relative;
+      z-index: 1;
+    }
+
+    .shelf-unified::-webkit-scrollbar {
+      height: 7px;
+    }
+
+    .shelf-unified::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, .15);
+      border-radius: 4px;
+    }
+
+    .spine {
+      position: relative;
+      flex: 0 0 64px;
+      width: 64px;
+      height: var(--h, 320px);
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      background: transparent;
+      color: var(--ink-on, #eee);
+      perspective: 1100px;
+      overflow: visible;
+      transform-origin: center bottom;
+      /* --lean is set from JS on neighbours of an opened book so they tip
+         over as if physically pushed; bottom origin keeps feet planted */
+      transform: rotate(var(--lean, 0deg));
+      transition: width .48s cubic-bezier(.22, 1, .36, 1),
+        flex-basis .48s cubic-bezier(.22, 1, .36, 1), transform .45s var(--ease);
+    }
+
+    /* The shadow must follow the rough clip-path cut, so the drop-shadow
+       lives here while the clip + paint live on the inner paper layer —
+       filter applied after clip-path on the same element would clip the
+       shadow away. */
+    .spine__surface {
+      position: absolute;
+      inset: 0;
+      filter: drop-shadow(0 8px 9px rgba(10, 20, 20, .24));
+      transform-origin: right center;
+      backface-visibility: hidden;
+      transition: transform .42s cubic-bezier(.22, 1, .36, 1), opacity .2s ease;
+    }
+
+    .spine__paper {
+      position: absolute;
+      inset: 0;
+      background-color: var(--c, #33415a);
+      background-image: linear-gradient(90deg, rgba(0, 0, 0, .10), transparent 14%, transparent 86%, rgba(0, 0, 0, .16));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 4px;
+      overflow: hidden;
+      transition: background-color .6s ease, color .6s ease;
+    }
+
+    /* Opened book: a true 3D volume — front cover, spine face, and a
+       page-block sliver at the fore-edge — pulled out of the row and
+       turned to a three-quarter angle so the side profile stays visible,
+       like the reference. The wrapper carries its own perspective (an
+       ancestor's perspective property only reaches direct children), and
+       must NOT have overflow or filter: either would flatten the 3D. */
+    .spine__cover {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: var(--cover-w, 236px);
+      height: 100%;
+      perspective: 750px;
+      text-align: left;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+      --depth: 26px;
+    }
+
+    /* soft cast shadow on the shelf under the volume */
+    .spine__cover::after {
+      content: '';
+      position: absolute;
+      left: 2%;
+      right: 18%;
+      bottom: -8px;
+      height: 16px;
+      background: radial-gradient(ellipse at 38% 50%, rgba(10, 20, 20, .34), transparent 70%);
+      opacity: 0;
+      transition: opacity .4s ease .12s;
+    }
+
+    /* Swings around its spine: edge-on in the shelf (only the spine face
+       toward the viewer, continuous with the flat paper spine it replaces)
+       out to the three-quarter reading angle. */
+    .spine__cover-book {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      transform-origin: left center;
+      transform: rotateY(86deg);
+      transition: transform .55s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    /* spine face: a real side plane rotated 90° out of the cover plane */
+    .spine__cover-edge {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: var(--depth, 26px);
+      height: 100%;
+      transform-origin: left center;
+      transform: rotateY(-90deg);
+      background-color: var(--c, #33415a);
+      background-image: linear-gradient(90deg, rgba(0, 0, 0, .22), rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, .26));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 2px 0 0 2px;
+    }
+
+    .spine__cover-edge-title {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: 'Jost', sans-serif;
+      font-size: .5rem;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      max-height: 92%;
+      overflow: hidden;
+      color: var(--ink-on, #eee);
+      opacity: .9;
+    }
+
+    .spine__cover-front {
+      position: absolute;
+      inset: 0;
+      transform: translateZ(var(--depth, 26px));
+      backface-visibility: hidden;
+      border-radius: 2px 5px 5px 2px;
+      background-color: var(--c, #33415a);
+      background-image: linear-gradient(125deg, rgba(255, 255, 255, .18), transparent 34%),
+        linear-gradient(160deg, transparent 55%, rgba(0, 0, 0, .24));
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: .6rem;
+      padding: clamp(1rem, 1.8vw, 1.4rem);
+      /* crease shadow where the cover meets the spine, plus a hairline */
+      box-shadow: inset 7px 0 10px -4px rgba(0, 0, 0, .38), 0 0 0 1px rgba(0, 0, 0, .08);
+    }
+
+    /* page-block sliver along the fore-edge of a hardcover */
+    .spine--book .spine__cover-front::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      bottom: 2px;
+      right: 0;
+      width: 4px;
+      background: repeating-linear-gradient(180deg, #efe9d8 0 2px, #d9d1bc 2px 3px);
+      border-radius: 0 4px 4px 0;
+    }
+
+    .spine__cover-copy {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+    }
+
+    .spine__cover-title {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: clamp(1.2rem, 2vw, 1.7rem);
+      font-weight: 600;
+      line-height: 1.02;
+      letter-spacing: -.025em;
+      text-wrap: balance;
+    }
+
+    .spine__cover-author {
+      font-family: 'Jost', sans-serif;
+      font-size: .62rem;
+      line-height: 1.35;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      opacity: .82;
+    }
+
+    /* Real cover art, once fetched, replaces the designed front entirely —
+       the reference shows the untouched artwork, no scrim or overlay text.
+       Titles without art keep the designed front above as a fallback. */
+    .spine__cover.has-cover .spine__cover-front {
+      background-image: var(--cover-img);
+    }
+
+    .spine__cover.has-cover .spine__cover-copy {
+      display: none;
+    }
+
+    .spine.is-active {
+      z-index: 5;
+      flex-basis: var(--cover-w, 236px);
+      width: var(--cover-w, 236px);
+      transform: translateY(-6px);
+    }
+
+    .spine.is-active .spine__surface {
+      opacity: 0;
+      transform: translateX(-10px) rotateY(74deg);
+    }
+
+    .spine.is-active .spine__cover {
+      opacity: 1;
+      transform: rotate(-1.2deg);
+    }
+
+    .spine.is-active .spine__cover::after {
+      opacity: 1;
+    }
+
+    /* three-quarter angle: positive rotateY brings the left (spine) face
+       toward the viewer while the cover recedes — the 45°-ish pose */
+    .spine.is-active .spine__cover-book {
+      transform: rotateY(40deg);
+    }
+
+    /* Title-only spine text, reading bottom-to-top in spaced uppercase
+       sans — the reference keeps spines minimal: no author, no logo. */
+    .spine__title {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      font-size: .67rem;
+      line-height: 1.2;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      max-height: calc(100% - 8px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* CJK glyphs already sit upright and top-to-bottom in vertical-rl —
+       the 180deg flip above exists only to turn *Latin* text so it reads
+       bottom-to-top like a Western spine, and applying it to CJK instead
+       mirrors each character and reverses the reading order. */
+    .spine--cjk .spine__title,
+    .spine--cjk .spine__cover-edge-title {
+      transform: none;
+      letter-spacing: .3em;
+    }
+
+    /* Films reuse the book spine's shape wholesale — same rough-cut flat
+       rectangle, same top-edge treatment, same type scale — rather than a
+       bespoke silhouette (DVD case, rolled tube, etc). The only visual
+       differentiators are the fill colour and, when art has loaded, a
+       thin strip of the poster's own artwork along the top sitting above
+       a solid block in a tone pulled from that same poster. */
+    .spine--dvd {
+      flex: 0 0 42px;
+      width: 42px;
+      --cover-w: 206px;
+      --art-strip: 15%;
+    }
+
+    .spine--dvd.has-cover .spine__paper {
+      background-image: var(--cover-img),
+        linear-gradient(90deg, rgba(0, 0, 0, .10), transparent 14%, transparent 86%, rgba(0, 0, 0, .16));
+      background-size: 100% var(--art-strip), 100% 100%;
+      background-position: top, top;
+      background-repeat: no-repeat, no-repeat;
+    }
+
+    .spine--dvd.has-cover .spine__paper::before {
+      content: '';
+      position: absolute;
+      top: calc(var(--art-strip) - 3px);
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, .25), transparent);
+      pointer-events: none;
+    }
+
+    .spine--dvd .spine__cover {
+      --depth: 14px;
+    }
+
+    .spine--dvd .spine__cover-front {
+      border-radius: 2px;
+    }
+
+    .spine--dvd .spine__cover-edge {
+      border-radius: 1px 0 0 1px;
+    }
+
+    .spine--dvd .spine__cover-edge-title {
+      font-size: .44rem;
+      letter-spacing: .1em;
+    }
+
+    .spine--dvd .spine__cover-front::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(105deg, rgba(255, 255, 255, .20) 0%, rgba(255, 255, 255, .05) 18%, transparent 30%);
+    }
+
+    .spine--dvd .spine__cover-title {
+      font-family: 'Jost', sans-serif;
+      font-size: clamp(1rem, 1.7vw, 1.35rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -.015em;
+    }
+
+    /* A film pulls out like a rolled poster, not a hinged book: no side
+       profile (a poster has none), and instead of swinging open on a
+       spine it unfurls top-to-bottom via a clip-path reveal — the actual
+       pixels never stretch or scale, they're just progressively uncovered
+       — while a curled shadow bar standing in for the still-rolled part
+       flattens away as the reveal finishes. */
+    .spine--dvd .spine__cover-edge {
+      display: none;
+    }
+
+    .spine--dvd .spine__cover-book {
+      transform: none;
+      transition: none;
+    }
+
+    .spine--dvd .spine__cover-front {
+      left: 0;
+      transform: none;
+      clip-path: inset(0 0 100% 0 round 2px);
+      transition: clip-path .62s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .spine--dvd .spine__cover-front::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 12px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, .42), transparent);
+      opacity: 1;
+      transition: opacity .3s ease .32s;
+    }
+
+    .spine.is-active.spine--dvd .spine__cover-front {
+      clip-path: inset(0 0 0% 0 round 2px);
+    }
+
+    .spine.is-active.spine--dvd .spine__cover-front::before {
+      opacity: 0;
+    }
+
+    /* cancel the book's hinge-turn — a poster has nothing to turn on */
+    .spine.is-active.spine--dvd .spine__cover-book {
+      transform: none;
+    }
+
+    .spine:not(.is-active):hover {
+      transform: translateY(-8px) rotate(var(--lean, 0deg));
+    }
+
+    .spine:focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 5px;
+    }
+
+    .shelf-note {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: max-height .45s cubic-bezier(.22, 1, .36, 1), opacity .28s ease,
+        transform .45s cubic-bezier(.22, 1, .36, 1), margin-top .45s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .shelf-note.is-open {
+      max-height: 240px;
+      margin-top: clamp(1.4rem, 2.6vw, 2rem);
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .book-note__title {
+      font-family: 'Newsreader', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: -.025em;
+      color: var(--ink);
+    }
+
+    .book-note__quote {
+      margin-top: .85rem;
+      font-size: clamp(.95rem, 1.25vw, 1.08rem);
+      line-height: 1.55;
+      color: var(--ink);
+      max-width: 900px;
+    }
+
+    .book-note__meta {
+      margin-top: .4rem;
+      font-size: .74rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--sub);
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .shelf-hint {
+      margin-top: clamp(1.2rem, 2.4vw, 1.8rem);
+      font-family: 'Jost', sans-serif;
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: var(--sub);
+    }
+
+    @media (max-width:760px) {
+      .spine {
+        flex: 0 0 56px;
+        width: 56px;
+      }
+
+      .spine--book {
+        --cover-w: 172px;
+      }
+
+      .spine--dvd {
+        flex: 0 0 34px;
+        width: 34px;
+        --cover-w: 156px;
+      }
+
+      .spine__cover-front {
+        padding: 1rem;
+      }
+
+      .spine__cover {
+        --depth: 20px;
+      }
+
+      .spine--dvd .spine__cover {
+        --depth: 11px;
+      }
+
+      .spine__cover-title {
+        font-size: 1.15rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .spine,
+      .spine__surface,
+      .spine__cover,
+      .spine__cover-book,
+      .shelf-note {
+        transition-duration: .01ms;
+      }
+    }
+
+    /* =========================================================================
+   INTRO OVERLAY  — 3D floating collage, blurred hero behind, click to enter
+   ========================================================================= */
+    .intro {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      background: rgba(250, 250, 250, .35);
+      cursor: pointer;
+      transition: opacity .9s var(--ease);
+    }
+
+    .intro.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* blur + gently scale the hero while the intro is open, then resolve in */
+    body.intro-open #home {
+      filter: blur(18px);
+      transform: scale(1.03);
+    }
+
+    #home {
+      transition: filter .9s var(--ease), transform .9s var(--ease);
+    }
+
+    .intro__cloud {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      perspective: 1300px;
+    }
+
+    .intro__stage3d {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      animation: cloudSpin 30s ease-in-out infinite;
+    }
+
+    .intro__img {
+      position: absolute;
+      width: var(--w);
+      transform: translate(-50%, -50%) translateZ(var(--z, 0px)) rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg));
+      will-change: transform;
+    }
+
+    .intro__floaty {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 26px 64px rgba(20, 24, 44, .24);
+      aspect-ratio: 4/5;
+      animation: floatZ var(--dur, 12s) ease-in-out var(--delay, 0s) infinite;
+    }
+
+    .intro__floaty img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .intro__floaty .imgfallback {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+      border-radius: 0;
+    }
+
+    .intro__center {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      pointer-events: none;
+      padding: 0 1.5rem;
+    }
+
+    .intro__welcome {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(1.9rem, 4.2vw, 3.6rem);
+      line-height: 1.12;
+      letter-spacing: -.01em;
+      color: var(--ink);
+      text-shadow: 0 2px 30px rgba(250, 250, 250, .9);
+    }
+
+    .intro__hint {
+      display: inline-block;
+      margin-top: 1.8rem;
+      padding: .7rem 1.4rem;
+      border: 1.5px solid var(--ink);
+      border-radius: 999px;
+      font-size: .9rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: rgba(255, 255, 255, .55);
+      animation: hintPulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes cloudSpin {
+
+      0%,
+      100% {
+        transform: rotateY(-7deg) rotateX(1.6deg);
+      }
+
+      50% {
+        transform: rotateY(7deg) rotateX(-1.6deg);
+      }
+    }
+
+    @keyframes floatZ {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      33% {
+        transform: translate(7px, -13px);
+      }
+
+      66% {
+        transform: translate(-9px, 7px);
+      }
+    }
+
+    @keyframes hintPulse {
+
+      0%,
+      100% {
+        opacity: .72;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width:760px) {
+      .intro__img {
+        width: clamp(84px, 22vw, 150px) !important;
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+
+      .intro__stage3d,
+      .intro__floaty,
+      .intro__hint {
+        animation: none;
+      }
+    }
+
+    /* =========================================================================
+       PHOTOGRAPHY PAGE
+       ========================================================================= */
+    .photog {
+      max-width: var(--maxw);
+      margin-inline: auto;
+      padding: clamp(6rem, 13vh, 9rem) var(--gutter) clamp(4rem, 10vw, 7rem);
+    }
+
+    .photog__head {
+      margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    .photog__head h1 {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .photog__head p {
+      margin-top: .8rem;
+      color: #9fd8d0;
+      font-size: clamp(1rem, 1.4vw, 1.2rem);
+    }
+
+    /* --- Masonry (CSS columns) --- */
+    .photog__grid {
+      columns: 4;
+      column-gap: 6px;
+    }
+
+    .photog__img {
+      width: 100%;
+      display: block;
+      min-height: 80px;
+      /* ensures layout space before image loads */
+      margin-bottom: 6px;
+      break-inside: avoid;
+      border-radius: 3px;
+      cursor: zoom-in;
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+
+    .photog__img.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .photog__img.is-visible:hover {
+      opacity: .88;
+    }
+
+    .photog__signoff {
+      margin-top: clamp(3rem, 6vw, 5rem);
+      padding-bottom: clamp(2rem, 4vw, 3rem);
+      text-align: center;
+      font-family: 'Newsreader', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(1rem, 1.6vw, 1.3rem);
+      color: #9fd8d0;
+      letter-spacing: .01em;
+    }
+
+    @media (max-width: 900px) {
+      .photog__grid {
+        columns: 2;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .photog__grid {
+        columns: 1;
+      }
+    }
+
+    /* --- Photography Lightbox --- */
+    .photog__lb {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, .93);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+
+    .photog__lb.is-open {
+      display: flex;
+    }
+
+    .photog__lb img {
+      max-width: 92vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .6);
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- fixed backdrop layers, crossfaded between light (default) and dark (photography) -->
+  <div class="bg-layer bg-light" aria-hidden="true"></div>
+  <div class="bg-layer bg-dark" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+     PROJECT DATA  — edit everything here; layout code never needs touching.
+     Add / remove / reorder freely. `image` filenames are relative to this
+     file (drop your images in the same folder). Replace placeholders with
+     your real Behance projects.
+     ========================================================================= -->
+  <script>
+    const PROJECTS = [
+      {
+        id: "project-one",
+        title: "CNBC Investment Simulator",                     // short name (menus, cards)
+        headline: "CNBC Investment Simulator",  // big serif hero line
+        blurb: "An AI-driven investment simulator for CNBC. Turns passive financial news into risk-free, hands-on practice for new investors.",
+        grad: "linear-gradient(120deg,#011E5A 0%,#0077FE 100%)", // hero gradient
+        cover: "images/cnbc investment/Hero cnbc.jpg",
+        eyebrow: "Creative Strategy Researcher & Prototype Builder | CNBC Intern Pitch Project",
+        parallax: 0.06,
+        heroStyle: "single",
+        heroImages: [
+          "images/cnbc investment/Group 16.svg"
+        ],
+        heroPos: [
+          { left: '50%', bottom: '-10vh', width: 'clamp(380px, 62vw, 920px)', transform: 'translateX(-50%)' }
+        ],
+        sections: [                               // left-menu items on the detail page
+          { heading: "Background", body: "Deep into the 21st century, integrating AI has become a necessity for platforms to remain the primary source of information for consumers. While CNBC has integrated AI into back-end operations, implementing front-end AI is crucial to maintain its status as the top business news platform for a new generation. The Investment Simulator was proposed and developed to transform financial news from passive consumption into an interactive, personalized experience. It specifically targets young investors who are curious about stock trading but hesitant to start, providing a risk-free environment to practice.", images: ["images/cnbc investment/Untitled design (3) 1.svg"] },
+          { heading: "Approach", body: "To develop the Investment Simulator, the strategy was rooted in transforming passive news consumption into an interactive and risk-free learning experience for younger demographics. I began by identifying busy professionals and young investors who are curious about the market but hesitant to commit real capital as the primary target audience. The approach involved a feasibility assessment that leveraged CNBC’s existing real-time data and content advantages while aligning with long-term strategic goals for audience growth. I mapped out a user journey that utilized contextual upsell moments such as sharp portfolio losses to trigger personalized recommendations for premium educational resources like the CNBC Investing Club. This cross-functional strategy ensured that the simulator was not a standalone tool, but a gateway to deeper engagement with the wider CNBC ecosystem.", images: ["images/cnbc investment/Desktop - 13 1.svg"] },
+          { heading: "Solution", body: "The final solution is a comprehensive virtual trading platform that allows users to build and manage a personal test portfolio using real-time market data. It features a robust trading interface where users can look up symbols and execute orders, supported by a performance dashboard that tracks total value and gains/losses. A key innovation is the integration of a portfolio-linked news feed, which provides live updates and \"Breaking News\" tags specifically for the stocks a user holds. To bridge the gap between information and action, the simulator is directly connected to the AI Assistant, which provides personalized summaries and \"AI Explains\" for market movements affecting the user’s virtual holdings. This ecosystem is monetized through contextual prompts that encourage users to upgrade to CNBC Pro for advanced analysis or join the Investing Club for expert-led lessons.", images: ["images/cnbc investment/Untitled design (4) 1.svg"] }
+        ]
+      },
+      {
+        id: "project-two",
+        title: "Hanwha × CNBC",
+        headline: "Hanwha × CNBC",
+        blurb: "A paid branded-content article for Hanwha, published live on CNBC.",
+        grad: "linear-gradient(120deg,#353968 0%,#F3734E 100%)",
+        cover: "images/cnbc hanwha/hero hanwha.jpg",
+        parallax: 0.08,
+        eyebrow: "Digital Designer, CNBC Internship (NBCUniversal) | ~1 Month",
+        heroStyle: "single",
+        heroImages: [
+          "images/cnbc hanwha/Group 35944.svg",
+        ],
+        heroPos: [
+          { left: '50%', bottom: '-10vh', width: 'clamp(380px, 62vw, 920px)', transform: 'translateX(-50%)' }
+        ],
+        sections: [
+          { heading: "Background", body: "I am tasked to design a branded content article for Hanwha, to run as a paid post on CNBC. The copy came in as a Word document, written by the company's editorial team. My job was turning that into a page. I researched Hanwha's own brand kit and how they structured their site to inform the visual direction, then built the page natively in Framer. Because the piece needed to read as a real CNBC page and not an obviously separate ad, the goal throughout was to make it feel native to the site it was published on, not just branded to Hanwha.", images: ["images/cnbc hanwha/Screenshot 2026-08-22 at 3.40.14 PM 1.svg"] },
+          {
+            heading: "Design", body: "The page is a long-form editorial scroll: Hanwha's orange marks each new section header, breaking up the acquisition, tech-transfer, and order-book narrative into digestible chunks. Two color-blocked pull-quote panels interrupt the reading rhythm exactly where the story needs a voice instead of another paragraph of facts. An embedded 8-minute video sits mid-page as a pacing break, and the piece closes on a branded CTA panel handing the reader back toward Hanwha's own site.Some snapshots from the design piece:", images: ["images/cnbc hanwha/Group 35946.svg", "images/cnbc hanwha/Group 35947.svg", "images/cnbc hanwha/Screenshot 2026-03-11 at 2.28.36 PM 1.svg"]
+          },
+          {
+            heading: "Reflection", body: "First time building directly in Framer. First time designing inside a brand system I didn't create. I worked from a writer's copy and Hanwha's brand kit, matching CNBC's visual language closely enough to feel native, not bolted on. A different constraint than a greenfield project, credibility here came from fitting in, not standing out.Click here to experience the website yourself: https://www.cnbc.com/advertorial/great-american-shipyard-reset/"
+          }
+        ]
+      },
+      {
+        id: "project-three",
+        title: "Upsize",
+        headline: "Upsize",
+        blurb: "A platform for the shared task of coordinating group clothing orders online.",
+        grad: "linear-gradient(120deg,#FD8B54 0%,#CD295A 100%)",
+        cover: "images/upsize/Hero upsize.jpg",
+        parallax: 0.08,
+        eyebrow: "UX Researcher & Prototype Designer | Solo Research + Prototype, 13-Week Team Project",
+        heroStyle: "single",
+        heroImages: [
+          "images/upsize/Screenshot 2025-11-24 at 2.41.11 PM 1.svg",
+        ],
+        heroPos: [
+          { left: '50%', bottom: '-8vh', width: 'clamp(440px, 70vw, 1060px)', transform: 'translateX(-50%)' }
+        ],
+        sections: [
+          {
+            heading: "Background",
+            body: `Buying clothes online with friends sounds simple. In practice, it's a shared task nobody owns: someone has to find a store everyone likes, chase confirmations, front the payment, track the order, and distribute it, which is usually across a Telegram group chat that goes quiet at exactly the wrong moment.
+
+Talking to students surfaced six recurring pain points: hitting minimum order thresholds, differing tastes among friends, the manual work of finding people to split with, disagreements over payment and delivery, uncertainty around order status, and the awkward job of chasing people down post-purchase. None of these are edge cases, they're the default experience.
+
+That framing led to three questions:`,
+            images: ["images/upsize/Group 117.svg"]
+          },
+          {
+            heading: "Research",
+            body: `We ran semi-structured interviews and focus group discussions. Interviews for fast quantitative signal plus depth on motivations while focus groups to observe real group dynamics and validate the frustrations people described one-on-one. Respondents were 19–25-year-old university students, across three interview groups, with a survey layered on top (62% response rate) to size what we were hearing.
+
+Two findings mattered most.
+
+Users care about discounts, but not at any cost: the bigger risk they wanted protection from was a stranger backing out last-minute. That reframed the design problem from "make discounts visible" to "make commitment reliable."
+
+Second, and contrary to our own prediction: people were genuinely fine ordering alone when a group didn't come together. The platform couldn't just be a matchmaking tool, but it had to work as a solo option too, or it would feel like a "nice-to-have" instead of something people actually needed.`,
+            images: ["images/upsize/Frame.svg"]
+          },
+          {
+            heading: "Design",
+            body: `Research became two personas: Savvy Sarah, budget-conscious and open to ordering with strangers if it saves money, and Trendy Theo, who already orders with friends but is worn down by manually tracking payments and coordinating timing. Both wanted the same underlying thing, which is less manual coordination, for different reasons.
+
+Mapping Sarah's current 5-step process against a redesigned version made the fix concrete: instead of Telegram threads and hoping people confirm, users join a "floating" group order on a community page, lock in their own payment independently, and get notified automatically as the group fills and the order moves through fulfilment.
+
+From a storyboard, through paper sketches, to lo-fi mockups built in Miro, the emphasis stayed on proving the interaction model, not visual polish. That was a deliberate scope call: get the flow right before making it pretty.`,
+            images: ["images/upsize/Frame-1.svg", "images/upsize/Group 35942.svg", "images/upsize/Screenshot 2025-11-25 at 3.20.49 PM 1.svg",]
+          },
+          {
+            heading: "Testing & Iteration",
+            body: `We ran Wizard-of-Oz testing with four participants matching the primary persona. It surfaced four concrete usability problems: the term "floating order" meant nothing to first-time users, the login/signup entry point was hard to find, individual vs. group order sections weren't visually distinct, and the notification for a member backing out was too easy to miss.
+
+Every finding led to a specific fix. "Start a Floating Order" became "Start Group Order." A prominent Login/Signup button went into the nav. The ambiguous "Confirm" button became "I'm Ready!", paired with a live status indicator ("3/6 members are ready"). Notifications gained explicit "Click to View More" links so nothing important stayed buried.
+
+A follow-up heuristic evaluation on the revised prototype found five smaller, lower-severity gaps, things like address labels not showing full detail, and limited onboarding for first-time users, logged honestly as a foundation for the next iteration rather than smoothed over.`,
+            images: ["images/upsize/Group 35945.svg"]
+          },
+          {
+            heading: "Outcome",
+            body: `Upsize demonstrates the full Double Diamond in miniature: real research reframing the problem, personas and journey mapping translating that research into a concrete redesign, and usability testing that actually changed the design rather than just validating it.
+
+The result is a platform that makes group-buying faster and less stressful than the Telegram-thread status quo — while still working for someone ordering alone, because the research showed that mattered just as much as the group feature itself.`
+          }
+        ]
+      },
+      {
+        id: "project-four",
+        title: "Zero Waste SG",
+        headline: "Zero Waste SG",
+        blurb: "A flagship magazine for a legacy NGO stuck in an echo chamber.",
+        grad: "linear-gradient(120deg,#006780 0%,#2A92AB 100%)",
+        cover: "images/zwsg/hero.jpg",
+        eyebrow: "Communications Strategist & Editorial Designer | Solo, 13-Week Semester Project",
+        heroStyle: "single",
+        parallax: 0.05,
+        heroImages: [
+          "images/zwsg/Neon Love Heart Shape (2).svg",
+        ],
+        heroPos: [
+          { left: '50%', bottom: '-5vh', width: 'clamp(380px, 62vw, 920px)', transform: 'translateX(-50%)' }
+        ],
+        sections: [
+          { heading: "Background", body: "Zero Waste SG has been fighting Singapore's waste problem for eighteen years, before recycling bins were standard, before the plastic bag charge, before \"sustainability\" was a boardroom word. For NM4208, I took them on as a real client: research the organisation, diagnose what was actually holding their communications back, and design a strategic response. The deliverable was a full Integrated Communications Plan and its flagship execution: a 16-page magazine, Issue 01 of 2, meant to relaunch how the organisation tells its own story.", images: ["images/zwsg/Group 112.jpg"] },
+          {
+            heading: "Problem",
+            body: `Zero Waste SG's work is strong. Its communications aren't keeping up with it.
+
+Three things are quietly costing them relevance. Their digital presence has visibly aged, it’s a text-heavy, static website that reads more like an archive than a movement, at exactly the moment Gen Z and millennial audiences equate design with credibility. They've lost ownership of their own win: thousands of people now carry reusable containers because of Bring Your Own, but almost none of them connect that habit back to Zero Waste SG. And their reach has quietly narrowed into an echo chamber, the people hearing from them are mostly the people already converted, while the households running on convenience culture, the ones who actually need to change, scroll past.
+
+None of this is a content problem. It's a narrative-ownership problem. Zero Waste SG has 18 years of proof that its methods work. The plan needed to make that proof visible, memorable, and traceable back to them.`,
+          },
+          {
+            heading: "Strategy",
+            body: `Behind the plan is a simple prioritisation: HDB households, educators and parents, and corporate partners. Uncle Lim, Wei Jie, Mdm Zainab, and the Singh family, which are profiled inside the magazine, are the households this was built for.
+
+This magazine, which serves as the flagship edition, was built to reclaim narrative ownership: origins, milestones, and each campaign introduced through the people living it, paired with clear calls to action. Inside, sixteen pages move a reader from why this matters to here's proof it works to here's what to do next: a welcome from Executive Director Lionel Dorai and the organisation's history, 18 years of impact in numbers, Roots in the Headlands giving four HDB households the page space to explain why the habit stuck, four campaign spreads (Bring Your Own, Save Food Cut Waste, Zero Waste Academy, Sort It Out) each pairing a bold stat with a practitioner quote, a landfill feature reframing Semakau's 2035 deadline as a personal stake, and a direct, tiered call to donate or volunteer.`,
+            images: ["images/zwsg/Group 113.svg", "images/zwsg/Group 114.svg", "images/zwsg/Group 115.svg"]
+          },
+          {
+            heading: "Outcome",
+            body: `The two designed pieces each carry a measurable target. The magazine aims for 4,000 physical copies distributed across both issues, at least 25% reader response via QR-linked surveys, and 300+ website visits or donation leads generated per issue. The website revamp targets a 60% increase in monthly unique visitors by December 2026. (The wider plan also set targets for Instagram and poster/flyer, not part of this design submission.)
+
+Together, the plan is designed to do one thing: convert people who already agree waste is a problem into people who actually act on it.`,
+            images: ["images/zwsg/Group 116.svg"]
+          }
+        ]
+      },
+      {
+        id: "project-five",
+        title: "Shopee Checkout UI/UX Design",
+        headline: "Shopee Checkout UI/UX Design",
+        blurb: "A checkout redesign for Shopee. Fixes inconsistent pricing and a rigid flow that blocked users from editing items mid-checkout.",
+        grad: "linear-gradient(120deg,#FE0004 0%,#DD583B 100%)",
+        parallax: 0.08,
+        cover: "images/shopee/hero shopee.jpg",
+        eyebrow: "User Researcher and Prototype Designer | 3 Days Design Sprint",
+        heroStyle: "trio-svg",
+        heroImages: [
+          "images/shopee/Group 111.svg",
+          "images/shopee/Group 112.svg",
+          "images/shopee/Prototype checkout.svg",
+        ],
+        heroPos: [
+          { left: '30%', bottom: '-15vh', width: 'clamp(210px, 21vw, 260px)', transform: 'rotate(-7deg)', transformOrigin: 'bottom center', zIndex: 2 },
+          { left: '50%', bottom: '-15vh', width: 'clamp(220px, 22vw, 275px)', transform: 'translateX(-50%)', zIndex: 3 },
+          { right: '30%', bottom: '-15vh', width: 'clamp(210px, 21vw, 260px)', transform: 'rotate(7deg)', transformOrigin: 'bottom center', zIndex: 2 }
+        ],
+        sections: [
+          { heading: "Background", body: "Shopee’s current checkout process faces a critical issue where pricing information is inconsistent between the cart and the final checkout page. This lack of transparency, combined with a rigid checkout flow that prevents users from editing or removing items without navigating back, creates a high-friction experience. The goal was to identify these friction points through qualitative research and heuristics to improve price transparency and user flexibility during the final stages of the purchase journey.", images: ["images/shopee/Untitled design 1.svg"] },
+          { heading: "Approach", body: "To address the friction within the checkout journey, I started by gathering qualitative insights from diverse user touchpoints, including app ratings and community discussions on Reddit, the Google Play Store, and the App Store. This research was complemented by a competitor analysis against e-commerce competitors like SHEIN, Amazon, TikTok Shop to identify industry standards for pricing transparency and flow flexibility. After synthesizing these findings into core insights and a problem summary, I utilized a prioritization matrix to categorize tasks by their impact and feasibility. This led to the creation of a detailed checkout flowchart to map out the ideal state and pinpoint exactly where the experience diverged from current UX practices. The final design strategy was anchored in a rigorous heuristics review, specifically targeting how to repair current systemic issues while ensuring the new flow remained functional and intuitive.", images: ["images/shopee/Desktop - 10 1.svg"] },
+          { heading: "Solution", body: "The final solution is a comprehensive virtual trading platform that allows users to build and manage a personal test portfolio using real-time market data. It features a robust trading interface where users can look up symbols and execute orders, supported by a performance dashboard that tracks total value and gains/losses. A key innovation is the integration of a portfolio-linked news feed, which provides live updates and \"Breaking News\" tags specifically for the stocks a user holds. To bridge the gap between information and action, the simulator is directly connected to the AI Assistant, which provides personalized summaries and \"AI Explains\" for market movements affecting the user\’s virtual holdings. This ecosystem is monetized through contextual prompts that encourage users to upgrade to CNBC Pro for advanced analysis or join the Investing Club for expert-led lessons.", images: ["images/shopee/2 26.svg"] }
+        ]
+      },
+    ];
+
+    /* ---- your identity (used in the hero) ---- */
+    const ME = {
+      name: "Jie Shi Lee",
+      city: "Singapore",
+      email: "jessy382003@gmail.com",
+      role: "Product Designer &\nPhotographer"   // use \n to force a line break
+    };
+
+    /* =========================================================================
+       ABOUT ME  — bio + two shelves: Films (as DVD spines) and Books (as book
+       spines). Click a spine to read the line you kept from it.
+       `type` must be "Film" or "Book". `color` is optional (the spine colour);
+       leave it out and one is chosen for you.
+       ========================================================================= */
+    const ABOUT = {
+      photo: 'images/profile pic.jpg',
+      bio: `Bello, I'm Jie Shi, a Year 4 Communication and New Media student at NUS. Currently, I am working as a <strong class="bio-highlight-primary">product designer in Alta Exchange Singapore</strong>, where I work on shipping QOL improvements, integrating AI into the design workflow, and maintaining the design system.
+
+Outside of work, I am also a <strong class="bio-highlight-secondary">photographer</strong>. Away from the screen I spend most of my time with films and books, this is a running shelf of what I've watched and read, and the lines that stayed with me.`
+    };
+
+    const MEDIA_LOG = [
+      // ---- Films (shown as DVD spines) ---- 20 total
+      {
+        type: "Film", title: "The Odyssey", by: "Christopher Nolan", year: "2026",
+        quote: "What you most want is what you most can't have, and what you most can't have is what you already had... and lost.",
+        wiki: "The Odyssey (2026 film)"
+      },
+      {
+        type: "Film", title: "Prestige", by: "Christopher Nolan", year: "2006",
+        quote: "Are you watching closely?",
+        wiki: "The Prestige (film)"
+      },
+      {
+        type: "Film", title: "F1", by: "Joseph Kosinski", year: "2025",
+        quote: "Hope is not a strategy.",
+        wiki: "F1 (film)"
+      },
+      {
+        type: "Film", title: "Inglourious Basterds", by: "Quentin Tarantino", year: "2009",
+        quote: "Facts can be so misleading, where rumors, true or false, are often revealing.",
+        wiki: "Inglourious Basterds"
+      },
+      {
+        type: "Film", title: "Zootopia 2", by: "Jared Bush, Byron Howard", year: "2025",
+        quote: "Or… maybe we don't have to prove anything to anybody.",
+        wiki: "Zootopia 2"
+      },
+      // {
+      //   type: "Film", title: "Chang'an's Litchis", by: "Da Peng", year: "2025",
+      //   quote: "Even if I fail, I want to know how far I fell from the finish line."
+      // },
+      {
+        type: "Film", title: "Interstellar", by: "Christopher Nolan", year: "2014",
+        quote: "Love is the one thing that transcends time and space.",
+        wiki: "Interstellar (film)"
+      },
+      {
+        type: "Film", title: "Dune", by: "Denis Villeneuve", year: "2021",
+        quote: "Fear is the mind-killer.",
+        wiki: "Dune (2021 film)"
+      },
+      {
+        type: "Film", title: "Soul", by: "Pete Docter", year: "2020",
+        quote: "How are you going to spend your life? - I'm not sure. But I know I am going to live every minute of it.",
+        wiki: "Soul (2020 film)"
+      },
+      {
+        type: "Film", title: "Finch", by: "Miguel Sapochnik", year: "2021",
+        quote: "Things will happen to you. Things that you cannot control. Raw emotion will find you. When it does, how you deal with it, what you do, will define who you are.",
+        wiki: "Finch (film)"
+      },
+      {
+        type: "Film", title: "Wicked", by: "Jon M. Chu", year: "2024",
+        quote: "Are people born wicked? Or do they have wickedness thrust upon them?",
+        wiki: "Wicked (2024 film)"
+      },
+      {
+        type: "Film", title: "When Life Gives You Tangerines", by: "Kim Won-seok", year: "2025",
+        quote: "Parents dwell on what they couldn't give. And children dwell on what they couldn't get.",
+        wiki: "When Life Gives You Tangerines"
+      },
+      {
+        type: "Film", title: "The Art of Sarah", by: "Kim Jin-min", year: "2026",
+        quote: "If you can't tell the fake from the real, is it really fake?",
+        wiki: "The Art of Sarah"
+      },
+      {
+        type: "Film", title: "Parasite", by: "Bong Joon-ho", year: "2019",
+        quote: "No, she's nice because she's rich.",
+        wiki: "Parasite (2019 film)"
+      },
+      {
+        type: "Film", title: "The Social Network", by: "David Fincher", year: "2010",
+        quote: "If you guys were the inventors of Facebook, you'd have invented Facebook.",
+        wiki: "The Social Network"
+      },
+      // {
+      //   type: "Film", title: "The Devil Wears Prada", by: "David Frankel", year: "2006",
+      //   quote: "I love my job. I love my job. I love my job."
+      // },
+      // {
+      //   type: "Film", title: "Zodiac", by: "David Fincher", year: "2007",
+      //   quote: "I need to know who he is. I need to stand there, I need to look him in the eye, and I need to know that it's him."
+      // },
+      {
+        type: "Film", title: "Sprited Away", by: "Hayao Miyazaki", year: "2001",
+        quote: "Once you've met someone, you never really forget them. It just takes a while for your memories to return.",
+        wiki: "Spirited Away"
+      },
+      {
+        type: "Film", title: "Inside Out", by: "Pete Docter", year: "2015",
+        quote: "It's all right not to be joyful all the time.",
+        wiki: "Inside Out (2015 film)"
+      },
+      {
+        type: "Film", title: "Coco", by: "Damien Chazelle", year: "2016",
+        quote: "If there's no one left in the living world to remember you, you disappear from this world.",
+        wiki: "Coco (2017 film)"
+      },
+
+      // ---- Books (shown as book spines) ---- 17 total
+      {
+        type: "Book", title: "Journey Under the Midnight Sun", by: "Keigo Higashino", year: "1999",
+        quote: "There are two things a person cannot look directly at: the sun, and the human heart.",
+        wiki: "Journey Under the Midnight Sun"
+      },
+      {
+        type: "Book", title: "The Kite Runner", by: "Khaled Hosseini", year: "2003",
+        quote: "There is a way to be good again.",
+        wiki: "The Kite Runner"
+      },
+      {
+        type: "Book", title: "Counselling for Toads", by: "Robert de Board", year: "1997",
+        quote: "True change requires you to look honestly at yourself and take risks. It’s not comfortable, but it’s real.",
+        cover: "https://yuyi.com.sg/cdn/shop/products/9787201161693.jpg?v=1658572853"
+      },
+      {
+        type: "Book", title: "A Thousand Splendid Suns", by: "Khaled Hosseini", year: "2007",
+        quote: "Only one skill. And it's this: tahamul. Endure.",
+        wiki: "A Thousand Splendid Suns"
+      },
+      {
+        type: "Book", title: "The Miracles of the Namiya General Store", by: "Keigo Higashino", year: "2013",
+        quote: "Most of the time, the person asking for advice already knows the answer in their heart. They're just looking for someone to confirm it, to say they're right.",
+        wiki: "The Miracles of the Namiya General Store"
+      },
+      {
+        type: "Book", title: "撒哈拉的故事", by: "三毛", year: "1976",
+        quote: "每想你一次，天上飘落一粒沙，从此形成了撒哈拉。",
+        wiki: "撒哈拉的故事"
+      },
+      {
+        type: "Book", title: "The Courage to Be Disliked", by: "Ichiro Kishimi, Fumitake Koga", year: "2013",
+        quote: "If you can be unhappy, you can also be happy.",
+        cover: "https://cassette.sphdigital.com.sg/image/zaobao/1e92221615778a315def6d467ebbc85cce36de3a5691a6c6d8eec8e686765342?f=webp&o=zbimg&oloc=se"
+      },
+      {
+        type: "Book", title: "十宗罪", by: "蜘蛛", year: "2019",
+        quote: "有些人是人，有些人只是长得像人。",
+        cover: "https://img3.od-cdn.com/ImageType-100/7978-1/%7BE5A94EB7-32E2-4931-A53E-6FEDF3414104%7DImg100.jpg"
+      },
+      {
+        type: "Book", title: "扮新娘", by: "许友彬", year: "2012",
+        quote: "小时候玩扮新娘，披上一张红布就是盖头，牵了手就是一辈子。那时候我们以为长大就像过家家一样简单。",
+        cover: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1389700925i/20534353.jpg"
+      },
+      {
+        type: "Book", title: "跳房子", by: "许友彬", year: "2013",
+        quote: "有些事情大人以为瞒得很好，其实小孩子心里早就清清楚楚，只是装作不知道而已。",
+        cover: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1389701093i/20534378.jpg"
+      },
+      {
+        type: "Book", title: "大风吹", by: "许友彬", year: "2014",
+        quote: "大风吹，吹什么？’大风吹来的时候，所有人都得离开原来的位子拼命跑，去找属于自己的新位置。生活也是这样，风一旦吹起来，谁也停不下来。",
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKkB2NQn3toBzlyy-2gUfjJrLbziCnybFNxQMnr7OCUw&s=10"
+      },
+      // {
+      //   type: "Book", title: "Show Your Work!", by: "Austin Kleon", year: "2014",
+      //   quote: "You don't have to be a genius. You just have to be yourself."
+      // },
+    ];
+
+    /* ---- real cover art for the shelf ----
+       Resolves to a Wikipedia page image (public, keyless REST API) using
+       the `wiki` field on each entry, which names the exact, hand-verified
+       article — a fuzzy title search was tried first but occasionally
+       matched an unrelated page (e.g. a person's portrait for a book with
+       no dedicated article), which reads worse than no cover at all, so
+       entries without a `wiki` field simply keep their designed spine.
+       Results are cached per title so a re-render never re-fetches, and
+       requests run a few at a time so a full shelf of ~30 items doesn't
+       trip Wikimedia's rate limit. */
+    const COVER_CACHE = new Map();
+
+    /* Resolves to the loaded <img> itself (not just its src) so the same
+       element can be sampled for a dominant colour below without a second
+       network fetch. crossOrigin is required to read pixels off the image
+       at all — but a source without permissive CORS headers (some of the
+       manually-sourced covers, unlike Wikimedia's) will then fail to load
+       outright, so a second attempt without it lets the cover still show;
+       colour extraction just quietly finds a tainted canvas and skips. */
+    function preloadImage(src) {
+      if (!src) return Promise.resolve(null);
+      return new Promise(resolve => {
+        const attempt = anon => {
+          const img = new Image();
+          if (anon) img.crossOrigin = 'anonymous';
+          img.onload = () => resolve(img);
+          img.onerror = () => anon ? attempt(false) : resolve(null);
+          img.src = src;
+        };
+        attempt(true);
+      });
+    }
+
+    /* Samples a downscaled copy of the cover on a canvas and finds its most
+       prominent *vivid* colour, bucketed by quantized RGB and scored by
+       HSV saturation — not HSL saturation, which is unreliable near the
+       lightness extremes: a barely-tinted pastel pixel like (252,218,208)
+       reports HSL saturation of ~0.88 (it divides chroma by a shrinking
+       range as lightness approaches 1), so it can outscore genuinely vivid
+       pixels and get treated as the cover's defining colour when it isn't
+       one. HSV saturation ((max-min)/max) doesn't have that blowup. The
+       winning bucket's own averaged RGB is returned as-is — a small
+       quantized cluster of real sampled pixels, not a colour rebuilt from
+       just its hue — so the spine ends up tinted with an actual colour
+       from the cover. Returns null (silently) if the canvas is tainted or
+       the image had no usable pixels. */
+    function deriveSpineColor(img) {
+      try {
+        const w = 40, h = 54;
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        const data = ctx.getImageData(0, 0, w, h).data;
+
+        const buckets = new Map();
+        for (let i = 0; i < data.length; i += 4) {
+          if (data[i + 3] < 128) continue;
+          const r = data[i], g = data[i + 1], b = data[i + 2];
+          const max = Math.max(r, g, b), min = Math.min(r, g, b);
+          const v = max / 255;
+          const sat = max === 0 ? 0 : (max - min) / max;
+          if (v > 0.95 || v < 0.08 || sat < 0.2) continue;
+          const key = (r >> 4) + ',' + (g >> 4) + ',' + (b >> 4);
+          let bucket = buckets.get(key);
+          if (!bucket) { bucket = { count: 0, r: 0, g: 0, b: 0, sat: 0, v: 0 }; buckets.set(key, bucket); }
+          bucket.count++; bucket.r += r; bucket.g += g; bucket.b += b; bucket.sat += sat; bucket.v += v;
+        }
+        if (!buckets.size) return null;
+
+        let best = null, bestScore = -1;
+        for (const bucket of buckets.values()) {
+          const score = bucket.count * (0.5 + bucket.sat / bucket.count);
+          if (score > bestScore) { bestScore = score; best = bucket; }
+        }
+
+        // Use the winning bucket's own sampled colour as-is — it's the
+        // average of a small quantized cluster of real pixels, so it's
+        // (very close to) an actual colour from the cover, not a colour
+        // invented from just its hue. An earlier version kept only the
+        // hue and rebuilt the rest from a fixed saturation/lightness
+        // formula, which routinely produced a tone that never appeared
+        // anywhere in the source image.
+        const rr = Math.round(best.r / best.count);
+        const gg = Math.round(best.g / best.count);
+        const bb = Math.round(best.b / best.count);
+        const hex = '#' + [rr, gg, bb].map(v => v.toString(16).padStart(2, '0')).join('');
+        const luminance = (0.299 * rr + 0.587 * gg + 0.114 * bb) / 255;
+        const ink = luminance > 0.58 ? '#241a08' : '#f4efe2';
+        return { hex, ink };
+      } catch { return null; }
+    }
+
+    async function wikiSummary(pageTitle) {
+      const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(pageTitle.replace(/ /g, '_'))}`);
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data?.originalimage?.source || data?.thumbnail?.source || null;
+    }
+
+    function fetchCover(m) {
+      // `cover` is a hand-sourced direct image URL, used for titles with no
+      // usable Wikipedia article; it always wins over a `wiki` lookup.
+      if (m.cover) return Promise.resolve(m.cover);
+      if (!m.wiki) return Promise.resolve(null);
+      const key = `${m.type}:${m.wiki}`;
+      if (COVER_CACHE.has(key)) return COVER_CACHE.get(key);
+      const p = wikiSummary(m.wiki).catch(() => null);
+      COVER_CACHE.set(key, p);
+      return p;
+    }
+
+    /* Runs async tasks with at most `limit` in flight at once. */
+    function runWithConcurrency(tasks, limit) {
+      let i = 0;
+      const workers = new Array(Math.min(limit, tasks.length)).fill(0).map(async () => {
+        while (i < tasks.length) {
+          const task = tasks[i++];
+          await task();
+        }
+      });
+      return Promise.all(workers);
+    }
+
+    /* Fetches + preloads real art for every book/film spine, then swaps it
+       into that spine's cover container once it's ready to paint — and
+       retints the spine itself (before it's ever clicked) to the cover's
+       own dominant colour, so the closed shelf already hints at what's
+       behind each spine instead of a colour picked at random. */
+    function loadShelfCovers(aboutView, books, films) {
+      const applyCover = (kind, i) => async (m) => {
+        const img = await preloadImage(await fetchCover(m));
+        if (!img) return;
+        const spine = aboutView.querySelector(`.spine[data-kind="${kind}"][data-idx="${i}"]`);
+        if (!spine) return;
+        const cover = spine.querySelector('.spine__cover');
+        cover.style.setProperty('--cover-img', `url("${img.src}")`);
+        cover.classList.add('has-cover');
+        // Also flagged on the spine itself so the resting (closed) film
+        // spine's poster-art strip — a plain CSS rule, no JS of its own —
+        // can key off `.spine--dvd.has-cover` the same way.
+        spine.style.setProperty('--cover-img', `url("${img.src}")`);
+        spine.classList.add('has-cover');
+        const palette = deriveSpineColor(img);
+        if (palette) {
+          spine.style.setProperty('--c', palette.hex);
+          spine.style.setProperty('--ink-on', palette.ink);
+        }
+      };
+      const tasks = [
+        ...books.map((m, i) => () => applyCover('book', i)(m)),
+        ...films.map((m, i) => () => applyCover('dvd', i)(m))
+      ];
+      runWithConcurrency(tasks, 4);
+    }
+  </script>
+
+  <!-- =========================================================================
+     INTRO OVERLAY — 3D floating collage + click-to-enter
+     ========================================================================= -->
+  <!-- INTRO OVERLAY — temporarily disabled
+  <div id="intro" class="intro" role="button" tabindex="0" aria-label="Enter site">
+    <div class="intro__cloud">
+      <div class="intro__stage3d" id="introCloud"></div>
+    </div>
+    <div class="intro__center">
+      <p class="intro__welcome" id="intro-welcome"></p>
+      <p class="intro__hint" id="intro-hint"></p>
+    </div>
+  </div>
+  -->
+
+  <!-- =========================================================================
+     TOP NAV  (Work / About links; home link is the name)
+     ========================================================================= -->
+  <nav class="topnav" id="topnav">
+    <a class="topnav__home" href="#" id="topnav-name"></a>
+    <div class="topnav__links">
+      <a href="#work">Work</a>
+      <a href="#photography">Photography</a>
+      <a href="#about">About</a>
+      <a href="https://www.linkedin.com/in/jie-shi-lee" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+    </div>
+  </nav>
+
+  <!-- =========================================================================
+     HOME VIEW
+     ========================================================================= -->
+  <main id="home" class="view is-active">
+    <section class="hero">
+      <div class="hero__contact">
+        <span class="loc" id="me-city"></span>
+        <a class="mail" id="me-email" href="#"></a>
+      </div>
+
+      <h1 class="hero__name" id="me-name"></h1>
+
+      <!-- Phase 3 replaces this with the animated floating gallery -->
+      <div class="hero__stage" id="stage">
+        <div class="stage-placeholder">Work gallery — Phase 3</div>
+      </div>
+
+      <p class="hero__role" id="me-role"></p>
+    </section>
+  </main>
+
+  <!-- =========================================================================
+     DETAIL VIEW  — scaffold; content rendered in Phase 2
+     ========================================================================= -->
+  <div id="detail" class="view" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+     WORK INDEX VIEW  — grid of all projects
+     ========================================================================= -->
+  <div id="work" class="view" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+     ABOUT VIEW  — bio + media log wall
+     ========================================================================= -->
+  <div id="about" class="view" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+     PHOTOGRAPHY VIEW
+     ========================================================================= -->
+  <div id="photography" class="view" aria-hidden="true"></div>
+
+  <script>
+    /* fill the hero from ME */
+    document.getElementById('me-city').textContent = ME.city;
+    const mail = document.getElementById('me-email');
+    const mailLabel = ME.email.toUpperCase();
+    mail.textContent = mailLabel;
+    mail.href = 'mailto:' + ME.email;
+    mail.addEventListener('click', (e) => {
+      e.preventDefault();
+      navigator.clipboard.writeText(ME.email).catch(() => { });
+      mail.textContent = 'COPIED!';
+      clearTimeout(mail._resetTimer);
+      mail._resetTimer = setTimeout(() => { mail.textContent = mailLabel; }, 1600);
+    });
+    document.getElementById('me-name').textContent = ME.name;
+    document.getElementById('me-role').innerHTML = ME.role.replace(/\n/g, '<br>');
+
+    /* =========================================================================
+       FLOATING WORK GALLERY (home stage)
+       Scattered, gently drifting thumbnails — click opens the project detail.
+       Positions/sizes below are presets; they cycle if there are more projects.
+       ========================================================================= */
+    const GALLERY_LAYOUT = [
+      { left: '30%', top: '36%', w: 'clamp(180px,18vw,290px)', rot: '-5deg', dur: '14s', delay: '0s', kf: 'drift', depth: 0.55 },
+      { left: '54%', top: '28%', w: 'clamp(200px,20vw,320px)', rot: '3deg', dur: '16s', delay: '-5s', kf: 'drift2', depth: 0.85 },
+      { left: '76%', top: '36%', w: 'clamp(180px,18vw,285px)', rot: '-3deg', dur: '15s', delay: '-8s', kf: 'drift', depth: 0.50 },
+      { left: '38%', top: '68%', w: 'clamp(175px,17vw,275px)', rot: '4deg', dur: '17s', delay: '-3s', kf: 'drift2', depth: 0.60 },
+      { left: '60%', top: '65%', w: 'clamp(210px,21vw,335px)', rot: '-2deg', dur: '15.5s', delay: '-7s', kf: 'drift', depth: 1.00 },
+      { left: '80%', top: '67%', w: 'clamp(170px,16.5vw,270px)', rot: '5deg', dur: '13.5s', delay: '-2s', kf: 'drift2', depth: 0.45 }
+    ];
+
+    /* Which projects float on the HOME page (the rest live on the Work page).
+       Edit this list to curate — keep it to ~6 so the landing stays calm. */
+    const FEATURED_IDS = [
+      "project-one", "project-two", "project-three",
+      "project-four", "project-five", "project-six"
+    ];
+    const homeProjects = PROJECTS.filter(p => FEATURED_IDS.includes(p.id));
+
+    const stage = document.getElementById('stage');
+    stage.innerHTML =
+      '<div class="gallery">' +
+      homeProjects.map((p, i) => {
+        const L = GALLERY_LAYOUT[i % GALLERY_LAYOUT.length];
+        const style =
+          `left:${L.left}; top:${L.top};` +
+          `--w:${L.w}; --rot:${L.rot}; --dur:${L.dur}; --delay:${L.delay};`;
+        return `<div class="gallery__item" style="${style}" data-depth="${L.depth}">
+      <div class="gallery__orbit" style="animation-name:${L.kf};">
+        <a class="gallery__card" href="#${p.id}" aria-label="${p.title}">
+          ${img(p.cover, p.title)}
+          <span class="gallery__cap">${p.title}</span>
+        </a>
+      </div>
+    </div>`;
+      }).join('') +
+      '</div>';
+
+    /* depth-based mouse parallax — nearer cards shift more, eased for smoothness */
+    (function galleryParallax() {
+      if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+      if (matchMedia('(max-width:760px)').matches) return;
+      const items = [...stage.querySelectorAll('.gallery__item')];
+      if (!items.length) return;
+      let tx = 0, ty = 0, cx = 0, cy = 0;
+      // cache the rect instead of measuring on every mousemove — mousemove can
+      // fire 100+ times/sec, and getBoundingClientRect() forces a synchronous
+      // layout each time, which is the main source of the jank
+      let rect = stage.getBoundingClientRect();
+      const refreshRect = () => { rect = stage.getBoundingClientRect(); };
+      window.addEventListener('resize', refreshRect);
+      window.addEventListener('scroll', refreshRect, { passive: true });
+      stage.addEventListener('mousemove', (e) => {
+        tx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;   // -1 .. 1
+        ty = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      });
+      stage.addEventListener('mouseenter', refreshRect);
+      stage.addEventListener('mouseleave', () => { tx = 0; ty = 0; });
+      (function loop() {
+        // skip work while the home view is hidden (any other page) —
+        // no point paying for a rAF loop nobody can see
+        if (stage.offsetParent === null) {
+          requestAnimationFrame(loop);
+          return;
+        }
+        // higher lerp factor = the cards catch up to the cursor much faster,
+        // which is what actually reads as "smooth" rather than "laggy"
+        cx += (tx - cx) * 0.09;
+        cy += (ty - cy) * 0.09;
+        for (const it of items) {
+          const d = parseFloat(it.dataset.depth) || 0.5;
+          it.style.transform = `translate(${(cx * d * 36).toFixed(2)}px, ${(cy * d * 36).toFixed(2)}px)`;
+        }
+        requestAnimationFrame(loop);
+      })();
+    })();
+
+    /* =========================================================================
+       INTRO OVERLAY — 3D floating collage + click-to-enter
+       Edit the two lines of copy here.
+       ========================================================================= */
+    /* INTRO OVERLAY — temporarily disabled
+    const INTRO = {
+      welcome: "Welcome in, have a look around.",   // the big line
+      hint: "click anywhere to start"             // the small line
+    };
+
+    const INTRO_LAYOUT = [
+      { x: 16, y: 28, z: -120, ry: 22, rx: 3, w: 'clamp(120px,12vw,190px)', dur: '11s', delay: '0s' },
+      { x: 30, y: 60, z: 40, ry: 14, rx: -2, w: 'clamp(150px,15vw,240px)', dur: '13s', delay: '-3s' },
+      { x: 50, y: 24, z: 130, ry: 0, rx: 2, w: 'clamp(175px,18vw,290px)', dur: '12s', delay: '-6s' },
+      { x: 68, y: 58, z: 35, ry: -14, rx: -2, w: 'clamp(150px,15vw,235px)', dur: '14s', delay: '-2s' },
+      { x: 84, y: 30, z: -120, ry: -22, rx: 3, w: 'clamp(120px,12vw,185px)', dur: '12.5s', delay: '-8s' },
+      { x: 22, y: 44, z: -40, ry: 18, rx: 0, w: 'clamp(130px,13vw,205px)', dur: '15s', delay: '-4s' },
+      { x: 41, y: 40, z: 85, ry: 6, rx: -1, w: 'clamp(140px,14vw,220px)', dur: '11.5s', delay: '-9s' },
+      { x: 60, y: 38, z: 75, ry: -6, rx: -1, w: 'clamp(140px,14vw,220px)', dur: '13.5s', delay: '-1s' },
+      { x: 77, y: 45, z: -30, ry: -18, rx: 0, w: 'clamp(130px,13vw,205px)', dur: '16s', delay: '-5s' },
+      { x: 50, y: 72, z: 0, ry: 0, rx: -3, w: 'clamp(150px,15vw,235px)', dur: '12s', delay: '-7s' }
+    ];
+
+    const introEl = document.getElementById('intro');
+    document.getElementById('intro-welcome').textContent = INTRO.welcome;
+    document.getElementById('intro-hint').textContent = INTRO.hint;
+
+    document.getElementById('introCloud').innerHTML = PROJECTS.map((p, i) => {
+      const L = INTRO_LAYOUT[i % INTRO_LAYOUT.length];
+      const outer =
+        `left:${L.x}%; top:${L.y}%;` +
+        `--w:${L.w}; --z:${L.z}px; --ry:${L.ry}deg; --rx:${L.rx}deg;`;
+      const inner = `--dur:${L.dur}; --delay:${L.delay};`;
+      return `<div class="intro__img" style="${outer}">
+    <div class="intro__floaty" style="${inner}">${img(p.cover, p.title)}</div>
+  </div>`;
+    }).join('');
+
+    function enterSite() {
+      if (introEl.classList.contains('is-hidden')) return;
+      introEl.classList.add('is-hidden');
+      document.body.classList.remove('intro-open');
+      setTimeout(() => { introEl.remove(); }, 950);
+    }
+
+    if (location.hash && PROJECTS.some(p => '#' + p.id === location.hash)) {
+      introEl.remove();
+    } else {
+      document.body.classList.add('intro-open');
+      introEl.addEventListener('click', enterSite);
+      introEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); enterSite(); }
+      });
+    }
+    */
+
+    /* =========================================================================
+       VIEW ROUTING  (hash-based, no build step needed)
+       ========================================================================= */
+    const homeView = document.getElementById('home');
+    const detailView = document.getElementById('detail');
+    const workView = document.getElementById('work');
+    const aboutView = document.getElementById('about');
+    const photographyView = document.getElementById('photography');
+    const topnav = document.getElementById('topnav');
+    document.getElementById('topnav-name').textContent = ME.name;
+    let onParallaxScroll = null;   // active scroll handler (removed on nav)
+
+    function showView(which) {
+      document.body.dataset.cursorView = which;
+      homeView.classList.toggle('is-active', which === 'home');
+      detailView.classList.toggle('is-active', which === 'detail');
+      workView.classList.toggle('is-active', which === 'work');
+      aboutView.classList.toggle('is-active', which === 'about');
+      photographyView.classList.toggle('is-active', which === 'photography');
+      document.body.classList.toggle('is-photography', which === 'photography');
+      detailView.setAttribute('aria-hidden', which !== 'detail');
+      workView.setAttribute('aria-hidden', which !== 'work');
+      aboutView.setAttribute('aria-hidden', which !== 'about');
+      photographyView.setAttribute('aria-hidden', which !== 'photography');
+      topnav.style.display = (which === 'detail') ? 'none' : '';
+      if (which !== 'detail' && onParallaxScroll) {
+        window.removeEventListener('scroll', onParallaxScroll);
+        onParallaxScroll = null;
+      }
+      window.scrollTo(0, 0);
+    }
+
+    /* About — books and films begin as shelf spines. Selecting one rotates a
+       designed front cover toward the viewer and reveals its note below. */
+    function renderAbout() {
+      const films = MEDIA_LOG.filter(m => m.type === 'Film');
+      const books = MEDIA_LOG.filter(m => m.type === 'Book');
+
+      const bookPal = [
+        { c: '#1c2033', ink: '#f2efe4' }, { c: '#d9a53c', ink: '#2a1c05' }, { c: '#1f7a68', ink: '#eafaf3' },
+        { c: '#46586b', ink: '#eef2f5' }, { c: '#e4dcc4', ink: '#2c2415' }, { c: '#8a2035', ink: '#fbe9ec' },
+        { c: '#6b3fa0', ink: '#f2e9fb' }, { c: '#e0a92e', ink: '#2b1d02' }, { c: '#d6316b', ink: '#fbe6ee' },
+        { c: '#0f6a63', ink: '#e3f7f3' }, { c: '#e07a2e', ink: '#2b1503' }, { c: '#5c7284', ink: '#eef3f6' },
+        { c: '#c98a95', ink: '#2b1116' }, { c: '#1c2540', ink: '#eef1f7' }
+      ];
+      const dvdPal = [
+        { c: '#17213a', ink: '#dfe6f5' }, { c: '#3a1020', ink: '#f3d9df' }, { c: '#10261c', ink: '#d6efdf' },
+        { c: '#241436', ink: '#e4d6f2' }, { c: '#0f2a33', ink: '#d4eef2' }, { c: '#2a2a2a', ink: '#e6e6e6' }
+      ];
+      // A single fixed height per shelf so every spine's top lines up flat
+      // — only the hand-cut edge shape (roughClip below) varies per spine.
+      const bookH = [332];
+      const dvdH = [306];
+
+      const isCjk = text => /[㐀-鿿豈-﫿぀-ヿ가-힯]/.test(text);
+
+      /* Rough hand-cut paper edge, unique but stable per spine: a jittered
+         clip-path polygon from a tiny seeded PRNG so a re-render never
+         reshuffles the shapes. */
+      const roughClip = seed => {
+        let s = seed * 7919 + 13;
+        const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+        const p = n => n.toFixed(2) + '%';
+        const taperL = rnd() * 2.6, taperR = rnd() * 2.6;
+        const pts = [
+          [taperL, rnd() * 1.3],
+          [100 - taperR, rnd() * 1.3],
+          [100 - rnd() * 1.2, 25 + rnd() * 8],
+          [100 - rnd() * 1.5, 55 + rnd() * 8],
+          [100 - rnd() * 0.8, 84],
+          [100, 100],
+          [0, 100],
+          [rnd() * 0.8, 80],
+          [rnd() * 1.5, 52 + rnd() * 8],
+          [rnd() * 1.2, 24 + rnd() * 8],
+        ];
+        return `polygon(${pts.map(([x, y]) => p(x) + ' ' + p(y)).join(', ')})`;
+      };
+
+      const spineEl = (m, i, kind, pal, hts) => {
+        const p = pal[i % pal.length];
+        const h = hts[i % hts.length];
+        const cjkClass = isCjk(m.title) ? ' spine--cjk' : '';
+        // Films reuse the exact same hand-cut paper treatment as books —
+        // just a different seed so the two shelves don't repeat shapes.
+        const clip = roughClip(i + (kind === 'book' ? 1 : 101));
+        return `<button class="spine spine--${kind}${cjkClass}" style="--c:${p.c}; --ink-on:${p.ink}; --h:${h}px;"
+        data-kind="${kind}" data-idx="${i}" aria-label="Show ${m.title}" aria-expanded="false">
+        <span class="spine__surface">
+          <span class="spine__paper" style="clip-path:${clip}">
+            <span class="spine__title">${m.title}</span>
+          </span>
+        </span>
+        <span class="spine__cover" aria-hidden="true">
+          <span class="spine__cover-book">
+            <span class="spine__cover-edge"><span class="spine__cover-edge-title">${m.title}</span></span>
+            <span class="spine__cover-front">
+              <span class="spine__cover-copy">
+                <span class="spine__cover-title">${m.title}</span>
+                <span class="spine__cover-author">${m.by} · ${m.year}</span>
+              </span>
+            </span>
+          </span>
+        </span>
+      </button>`;
+      };
+
+      aboutView.innerHTML = `
+    <section class="about">
+      <header class="about__head">
+        <div class="about__text">
+          <h1>About</h1>
+          <div class="about__bio">
+            ${ABOUT.bio.split('\n\n').map(p => `<p>${p.trim()}</p>`).join('')}
+          </div>
+        </div>
+        ${ABOUT.photo ? `<img class="about__photo" src="${ABOUT.photo}" alt="Portrait"
+          onerror="this.style.display='none'">` : ''}
+      </header>
+      ${(books.length || films.length) ? `
+      <div class="shelf-stack">
+        ${books.length ? `
+        <div class="shelf-row">
+          <div class="shelf-row__label">Books</div>
+          <div class="shelf-unified" data-shelf="books">
+            ${books.map((m, i) => spineEl(m, i, 'book', bookPal, bookH)).join('')}
+          </div>
+          <div class="shelf-note" data-note="books" role="status" aria-live="polite"></div>
+        </div>` : ''}
+        ${films.length ? `
+        <div class="shelf-row">
+          <div class="shelf-row__label">Films</div>
+          <div class="shelf-unified" data-shelf="films">
+            ${films.map((m, i) => spineEl(m, i, 'dvd', dvdPal, dvdH)).join('')}
+          </div>
+          <div class="shelf-note" data-note="films" role="status" aria-live="polite"></div>
+        </div>` : ''}
+        <div class="shelf-hint">Click a spine to know more</div>
+      </div>` : ''}
+    </section>`;
+
+      loadShelfCovers(aboutView, books, films);
+
+      const spines = [...aboutView.querySelectorAll('.spine')];
+
+      // Each shelf keeps its own selection and stable note panel.
+      const rowStates = {};
+      aboutView.querySelectorAll('.shelf-unified').forEach(row => {
+        const key = row.dataset.shelf || 'default';
+        rowStates[key] = {
+          activeSpine: null,
+          note: row.closest('.shelf-row')?.querySelector('.shelf-note') || null
+        };
+      });
+
+      /* Neighbours of an opened book tip away from it — hardest right next
+         to it, settling back upright a few books out — like spines pushed
+         aside on a real shelf. */
+      function applyLean(row, activeSpine) {
+        const rowSpines = [...row.querySelectorAll('.spine')];
+        const activeAt = rowSpines.indexOf(activeSpine);
+        rowSpines.forEach((sp, i) => {
+          const d = i - activeAt;
+          if (d === 0) { sp.style.removeProperty('--lean'); return; }
+          const mag = Math.max(0, 6.5 - (Math.abs(d) - 1) * 2.4);
+          if (!mag) { sp.style.removeProperty('--lean'); return; }
+          sp.style.setProperty('--lean', (Math.sign(d) * mag).toFixed(1) + 'deg');
+        });
+      }
+
+      function clearLean(row) {
+        row.querySelectorAll('.spine').forEach(sp => sp.style.removeProperty('--lean'));
+      }
+
+      function closeRowNote(state) {
+        if (state.activeSpine) {
+          const row = state.activeSpine.closest('.shelf-unified');
+          if (row) clearLean(row);
+          state.activeSpine.classList.remove('is-active');
+          state.activeSpine.setAttribute('aria-expanded', 'false');
+        }
+        state.activeSpine = null;
+        if (state.note) state.note.classList.remove('is-open');
+      }
+
+      spines.forEach(s => {
+        s.addEventListener('click', () => {
+          const shelfRow = s.closest('.shelf-unified');
+          const key = shelfRow ? (shelfRow.dataset.shelf || 'default') : 'default';
+          const state = rowStates[key];
+          if (!state) return;
+
+          const wasActive = s === state.activeSpine;
+
+          if (wasActive) {
+            closeRowNote(state);
+            return;
+          }
+
+          closeRowNote(state);
+          s.classList.add('is-active');
+          s.setAttribute('aria-expanded', 'true');
+          state.activeSpine = s;
+          if (shelfRow) applyLean(shelfRow, s);
+
+          const isBook = s.dataset.kind === 'book';
+          const m = (isBook ? books : films)[+s.dataset.idx];
+          if (state.note) {
+            state.note.innerHTML = `
+              <div class="book-note__title">${m.title}</div>
+              <div class="book-note__meta">${m.by} · ${m.year}</div>
+              <div class="book-note__quote">&ldquo;${m.quote}&rdquo;</div>`;
+            state.note.classList.add('is-open');
+          }
+
+          // Centering must wait for the spine's width/flex-basis transition
+          // to actually finish — reading offsetWidth right after adding
+          // is-active (the old double-rAF approach) captures it mid-grow,
+          // so the scroll lands short and the 3D cover's popped-out corner
+          // hangs off the edge of the row's own scroll viewport with no
+          // way to bring it into view. transitionend gives the true final
+          // width; the timeout is just a safety net if it never fires.
+          const centerOnSpine = () => {
+            if (!shelfRow) return;
+            const targetLeft = s.offsetLeft - (shelfRow.clientWidth - s.offsetWidth) / 2;
+            shelfRow.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+          };
+          let centered = false;
+          const onGrowEnd = e => {
+            if (e.target !== s || (e.propertyName !== 'width' && e.propertyName !== 'flex-basis')) return;
+            if (centered) return;
+            centered = true;
+            s.removeEventListener('transitionend', onGrowEnd);
+            centerOnSpine();
+          };
+          s.addEventListener('transitionend', onGrowEnd);
+          setTimeout(() => { if (!centered) { centered = true; s.removeEventListener('transitionend', onGrowEnd); centerOnSpine(); } }, 560);
+        });
+
+        s.addEventListener('keydown', event => {
+          if (event.key !== 'Escape') return;
+          const shelfRow = s.closest('.shelf-unified');
+          const key = shelfRow ? (shelfRow.dataset.shelf || 'default') : 'default';
+          const state = rowStates[key];
+          if (state?.activeSpine === s) {
+            closeRowNote(state);
+            s.focus();
+          }
+        });
+      });
+    }
+
+    /* Work index — grid of every project */
+    function renderWork() {
+      workView.innerHTML = `
+    <section class="work">
+      <header class="work__head">
+        <h1>Selected Work</h1>
+        <p>Every project, in one place.</p>
+      </header>
+      <div class="work__grid">
+        ${PROJECTS.map(p => `
+          <a class="work-card" href="#${p.id}">
+            <div class="work-card__img">${img(p.cover, p.title)}</div>
+            <div class="work-card__meta">
+              <span class="work-card__title">${p.title}</span>
+              <span class="work-card__blurb">${p.blurb}</span>
+            </div>
+          </a>`).join('')}
+      </div>
+    </section>`;
+    }
+
+    /* <img> that swaps to a labelled placeholder if the file isn't there yet.
+       Pass `group` (the full array of images it belongs to) + `idx` to make it
+       openable in the lightbox with the rest of that group as a thumbnail rail. */
+    function img(src, alt, group, idx) {
+      const lit = group ? ` class="lit" data-imgs='${JSON.stringify(group)}' data-idx="${idx}"` : '';
+      return `<img src="${src}" alt="${alt || ''}"${lit}
+    onerror="this.replaceWith(Object.assign(document.createElement('div'),`
+        + `{className:'imgfallback',textContent:'${src}'}))">`;
+    }
+
+    /* Render hero media with dynamic layout per project:
+       - 'trio': classic 3 overlapping cards (center elevated) [default]
+       - 'single': large centered showcase / desktop screen
+       - 'duo': 2 side-by-side staggered cards
+       - 'spread': 3-5 cards fanned out with perspective angles
+       - 'device': smartphone mockup chassis
+       - 'cinematic': wide 16:9 panoramic banner
+       - 'custom': raw custom HTML via p.heroHTML
+    */
+    function renderHeroMedia(p) {
+      const style = p.heroStyle || 'trio';
+      const extraClass = p.heroClass ? ` ${p.heroClass}` : '';
+
+      // Direct custom HTML override
+      if (p.heroHTML) {
+        return `<div class="hero-media hero-media--custom${extraClass}">${p.heroHTML}</div>`;
+      }
+
+      const sec0 = p.sections && p.sections[0];
+      const sec1 = p.sections && p.sections[1];
+
+      // Resolve images array
+      let imgs = p.heroImages;
+      if (!imgs || !imgs.length) {
+        if (style === 'single' || style === 'device' || style === 'cinematic') {
+          imgs = [p.cover || (sec0 && sec0.images && sec0.images[0])].filter(Boolean);
+        } else if (style === 'duo') {
+          imgs = [
+            p.heroLeft || p.cover,
+            p.heroRight || (sec1 && sec1.images && sec1.images[0]) || (sec0 && sec0.images && (sec0.images[1] || sec0.images[0]))
+          ].filter(Boolean);
+        } else if (style === 'spread') {
+          const allSecImgs = (p.sections || []).flatMap(s => s.images || []);
+          imgs = [p.heroLeft, p.cover, p.heroRight, ...allSecImgs].filter(Boolean);
+          if (imgs.length < 3) imgs = [p.cover, p.cover, p.cover];
+          imgs = imgs.slice(0, 5);
+        } else {
+          // 'trio' / default
+          imgs = [
+            p.heroLeft || (sec0 && sec0.images && sec0.images[0]),
+            p.cover,
+            p.heroRight || (sec1 && sec1.images && sec1.images[0]) || (sec0 && sec0.images && sec0.images[1])
+          ].filter(Boolean);
+        }
+      }
+
+      // Helper: convert a heroPos entry to an inline style string
+      function posStyle(pos) {
+        if (!pos) return '';
+        return Object.entries(pos)
+          .map(([k, v]) => `${k.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${v}`)
+          .join('; ');
+      }
+
+      let inner = '';
+      if (style === 'single') {
+        const src = (imgs && imgs[0]) || p.cover;
+        const pos = (p.heroPos && p.heroPos[0]) || {};
+        const content = (typeof src === 'string' && src.trim().startsWith('<svg'))
+          ? src
+          : img(src, `${p.title} Graphic`);
+        inner = `<div class="hero-single__item" style="${posStyle(pos)}">${content}</div>`;
+      } else if (style === 'device') {
+        inner = `
+          <div class="hero-device">
+            <div class="hero-device__speaker"></div>
+            <div class="hero-device__screen">${img(imgs[0] || p.cover, p.title)}</div>
+          </div>`;
+      } else if (style === 'duo') {
+        inner = imgs.slice(0, 2).map((src, i) => {
+          const pos = (p.heroPos && p.heroPos[i]) || {};
+          const content = (typeof src === 'string' && src.trim().startsWith('<svg'))
+            ? src
+            : img(src, `${p.title} Graphic ${i + 1}`);
+          return `<div class="hero-duo__item hero-duo__item--${i + 1}" style="${posStyle(pos)}">${content}</div>`;
+        }).join('');
+      } else if (style === 'spread') {
+        inner = imgs.map((src, i) =>
+          `<div class="hero-card hero-card--spread hero-card--spread-${i + 1}">${img(src, p.title)}</div>`
+        ).join('');
+      } else if (style === 'cinematic') {
+        inner = `<div class="hero-card hero-card--cinematic">${img(imgs[0] || p.cover, p.title)}</div>`;
+      } else if (style === 'trio-svg' || style === 'trio-free') {
+        inner = imgs.slice(0, 3).map((src, i) => {
+          const pos = (p.heroPos && p.heroPos[i]) || {};
+          const content = (typeof src === 'string' && src.trim().startsWith('<svg'))
+            ? src
+            : img(src, `${p.title} Graphic ${i + 1}`);
+          return `<div class="hero-trio__item hero-trio__item--${i + 1}" style="${posStyle(pos)}">${content}</div>`;
+        }).join('');
+      } else {
+        // 'trio' (classic 3-card stack) / default fallback
+        inner = imgs.slice(0, 3).map((src, i) =>
+          `<div class="hero-card hero-card--trio hero-card--trio-${i + 1}">${img(src, p.title)}</div>`
+        ).join('');
+      }
+
+      return `<div class="hero-media hero-media--${style}${extraClass}">${inner}</div>`;
+    }
+
+    /* build the detail page for one project */
+    function renderDetail(p) {
+      const menu = p.sections
+        .map((s, i) => `<a href="#${p.id}" data-sec="${i}" class="${i === 0 ? 'active' : ''}">${s.heading}</a>`)
+        .join('');
+
+      const heroMedia = renderHeroMedia(p);
+
+      const body = p.sections.map((s, i) => {
+        const imgs = (s.images || []).filter(src => typeof src === 'string' && src.trim() !== '');
+        const gallery = imgs.length > 0
+          ? imgs.map((src, idx) => `<figure>${img(src, s.heading, imgs, idx)}</figure>`).join('')
+          : '';
+        const bodyContent = (s.body || '')
+          .split(/(?:\r?\n|\u2028){2,}/)
+          .filter(Boolean)
+          .map(para => `<p>${para.replace(/(?:\r?\n|\u2028)/g, '<br>')}</p>`)
+          .join('') || `<p></p>`;
+        return `
+    <section class="detail__section" id="sec-${i}">
+      <h2>${s.heading}</h2>
+      ${bodyContent}
+      ${gallery}
+    </section>`;
+      }).join('');
+
+      detailView.innerHTML = `
+    <article class="detail">
+      <div class="detail__band" style="--grad:${p.grad || ''}">
+        <div class="band__inner">
+          <div class="hero-text">
+            ${p.eyebrow ? `<p class="hero-eyebrow">${p.eyebrow}</p>` : ''}
+            <h1 class="hero-headline">${p.headline || p.title}</h1>
+            ${p.blurb ? `<p class="hero-sub">${p.blurb}</p>` : ''}
+          </div>
+          ${heroMedia}
+        </div>
+      </div>
+      <div class="detail__grid">
+        <aside class="detail__nav">
+          <a class="detail__back" href="#">&larr; Back</a>
+          <nav class="detail__menu">${menu}</nav>
+        </aside>
+        <div class="detail__herospace" aria-hidden="true"></div>
+        <div class="detail__main">${body}</div>
+      </div>
+    </article>`;
+
+      setupScrollSpy(p);
+      initParallax(p);
+      setupLightboxTriggers();
+    }
+
+    /* clicking any content-section photo opens it large, with the rest of its
+       section's photos as a scrollable thumbnail rail to jump between */
+    function setupLightboxTriggers() {
+      detailView.querySelectorAll('.detail__section img.lit').forEach(el => {
+        el.addEventListener('click', () => {
+          let imgs;
+          try { imgs = JSON.parse(el.dataset.imgs); } catch (e) { imgs = [el.getAttribute('src')]; }
+          openLightbox(imgs, +el.dataset.idx);
+        });
+      });
+    }
+
+    let lbImages = [], lbIndex = 0;
+    function ensureLightbox() {
+      let lb = document.getElementById('lightbox');
+      if (lb) return lb;
+      lb = document.createElement('div');
+      lb.id = 'lightbox';
+      lb.className = 'lightbox';
+      lb.innerHTML = `
+    <button class="lightbox__close" aria-label="Close">&times;</button>
+    <button class="lightbox__nav lightbox__nav--prev" aria-label="Previous">&larr;</button>
+    <div class="lightbox__stage"><img class="lightbox__img" alt=""></div>
+    <button class="lightbox__nav lightbox__nav--next" aria-label="Next">&rarr;</button>
+    <div class="lightbox__rail"></div>`;
+      document.body.appendChild(lb);
+      lb.querySelector('.lightbox__close').addEventListener('click', closeLightbox);
+      lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+      lb.querySelector('.lightbox__nav--prev').addEventListener('click', () => navLightbox(-1));
+      lb.querySelector('.lightbox__nav--next').addEventListener('click', () => navLightbox(1));
+      document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('is-open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navLightbox(-1);
+        if (e.key === 'ArrowRight') navLightbox(1);
+      });
+      return lb;
+    }
+    function renderLightboxRail(lb) {
+      lb.querySelector('.lightbox__rail').innerHTML = lbImages.map((src, i) =>
+        `<button class="lightbox__thumb${i === lbIndex ? ' is-active' : ''}" data-i="${i}">${img(src, '')}</button>`
+      ).join('');
+      lb.querySelectorAll('.lightbox__thumb').forEach(btn => {
+        btn.addEventListener('click', () => { lbIndex = +btn.dataset.i; updateLightbox(lb); });
+      });
+    }
+    function updateLightbox(lb) {
+      lb.querySelector('.lightbox__img').src = lbImages[lbIndex];
+      lb.querySelectorAll('.lightbox__thumb').forEach((t, i) => t.classList.toggle('is-active', i === lbIndex));
+      const active = lb.querySelector('.lightbox__thumb.is-active');
+      if (active && active.scrollIntoView) { try { active.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (e) { } }
+      const multi = lbImages.length > 1;
+      lb.querySelector('.lightbox__nav--prev').style.display = multi ? '' : 'none';
+      lb.querySelector('.lightbox__nav--next').style.display = multi ? '' : 'none';
+      lb.querySelector('.lightbox__rail').style.display = multi ? '' : 'none';
+    }
+    function navLightbox(delta) {
+      lbIndex = (lbIndex + delta + lbImages.length) % lbImages.length;
+      updateLightbox(ensureLightbox());
+    }
+    function openLightbox(images, idx) {
+      lbImages = images; lbIndex = idx;
+      const lb = ensureLightbox();
+      renderLightboxRail(lb);
+      updateLightbox(lb);
+      lb.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      const lb = document.getElementById('lightbox');
+      if (lb) lb.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    /* parallax: the images ride straight up (faster than the page) and,
+       clipped by the gradient, rise to cover the headline. No scaling.
+       Controlled per project via `p.parallax` (boolean or speed number, defaults to true). */
+    function initParallax(p) {
+      if (onParallaxScroll) {
+        window.removeEventListener('scroll', onParallaxScroll);
+        onParallaxScroll = null;
+      }
+
+      const media = detailView.querySelector('.hero-media');
+      if (!media) return;
+
+      // Switch: if parallax is set to false for this project, reset and exit
+      if (p && p.parallax === false) {
+        media.style.transform = '';
+        return;
+      }
+
+      if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+
+      const speed = (p && typeof p.parallax === 'number') ? p.parallax : 0.3;
+
+      let ticking = false;
+      function update() {
+        const y = window.scrollY;
+        media.style.transform = `translateY(${-y * speed}px)`;  // rise up
+        ticking = false;
+      }
+      onParallaxScroll = () => { if (!ticking) { requestAnimationFrame(update); ticking = true; } };
+      window.addEventListener('scroll', onParallaxScroll, { passive: true });
+      update();
+    }
+
+    /* highlight the left-menu item for the section currently in view & toggle nav dark/light text */
+    function setupScrollSpy(p) {
+      const nav = detailView.querySelector('.detail__nav');
+      const links = [...detailView.querySelectorAll('.detail__menu a')];
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const i = e.target.id.split('-')[1];
+            links.forEach(l => l.classList.toggle('active', l.dataset.sec === i));
+          }
+        });
+      }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+      detailView.querySelectorAll('.detail__section').forEach(sec => io.observe(sec));
+
+      // Toggle nav text color: white over hero gradient, black/dark over white content
+      const heroSpace = detailView.querySelector('.detail__herospace');
+      if (heroSpace && nav) {
+        const heroIo = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            nav.classList.toggle('is-scrolled', !e.isIntersecting);
+          });
+        }, { rootMargin: '-80px 0px 0px 0px', threshold: 0 });
+        heroIo.observe(heroSpace);
+      }
+    }
+
+    /* =========================================================================
+       PHOTOGRAPHY — render function
+       ========================================================================= */
+    const PHOTOS = [
+      'jieshi-45.jpg', 'china xa-3.jpg', 'jieshi-13 2.jpg', 'Jieshi-28 2.jpg',
+      'jieshi-60.jpg', 'china xa-8.jpg', 'jieshi-17.jpg', 'squirrel.jpg',
+      'Jieshi-09.jpg', 'jieshi-50.jpg', 'china cd d2-3.jpg', 'jieshi-08.jpg',
+      'jieshi-77 2.jpg', 'china d1.jpg', 'jieshi-26.jpg', 'Jieshi-20 2.jpg',
+      'jieshi-43.jpg', 'china xa-2-2.jpg', 'jieshi-35.jpg', 'jieshi-18 4.jpg',
+      'china xa-5.jpg', 'jieshi-04.jpg', 'Jieshi-31.jpg', 'jieshi-51.jpg',
+      'china cd d1-12.jpg', 'jieshi-22.jpg', 'jieshi-69.jpg', 'china xa-4.jpg',
+      'jieshi-15.jpg', 'Jieshi-08 2.jpg', 'jieshi-40.jpg', 'china d1-4.jpg',
+      'jieshi-27 2.jpg', 'jieshi-18 3.jpg', 'china xa-6.jpg', 'jieshi-14.jpg',
+      'jieshi-55.jpg', 'china xa-3-2.jpg', 'jieshi-18 2.jpg', 'jieshi-48.jpg',
+      'china xa.jpg', 'jieshi-02.jpg', 'jieshi-77.jpg', 'china cd d1-15.jpg',
+      'jieshi-42.jpg', 'china xa-7.jpg', 'jieshi-30.jpg', 'jieshi-28.jpg',
+      'china xa-4-2.jpg', 'Jieshi-04 2.jpg', 'jieshi-13.jpg', 'china cd d2.jpg',
+      'jieshi-58.jpg', 'jieshi-65 2.jpg', 'china d1-9.jpg', 'jieshi-19.jpg',
+      'jieshi-47.jpg', 'china xa-2.jpg', 'jieshi-12.jpg', 'jieshi-17 2.jpg',
+      'china cd d2-2.jpg', 'jieshi-27.jpg', 'jieshi-20.jpg', 'jieshi-53.jpg',
+      'jieshi-16.jpg', 'jieshi-10.jpg', 'jieshi-44.jpg', 'jieshi-56.jpg',
+      'jieshi-65.jpg', 'jieshi-18.jpg', 'jieshi-23.jpg'
+    ];
+
+    function renderPhotography() {
+      photographyView.innerHTML = `
+        <section class="photog">
+          <header class="photog__head">
+            <h1>Photography</h1>
+            <p>Passion project, here and there!</p>
+          </header>
+          <div class="photog__grid">
+            ${PHOTOS.map((f, i) =>
+        `<img class="photog__img" src="images/photography/${f}"
+                alt="Photo ${i + 1}" data-idx="${i}">`
+      ).join('')}
+          </div>
+          <p class="photog__signoff">film &amp; light &amp; all the good stuff in between — cheers to more to come 🥂</p>
+        </section>`;
+
+      /* Lightbox — lives on body so position:fixed works regardless of
+         any stacking context the view container might create */
+      let lb = document.getElementById('photog-lb');
+      if (!lb) {
+        lb = document.createElement('div');
+        lb.id = 'photog-lb';
+        lb.className = 'photog__lb';
+        lb.innerHTML = `<img id="photog-lb-img" src="" alt="">`;
+        document.body.appendChild(lb);
+        lb.addEventListener('click', () => lb.classList.remove('is-open'));
+        document.addEventListener('keydown', e => {
+          if (e.key === 'Escape') lb.classList.remove('is-open');
+        });
+      }
+      const lbImg = document.getElementById('photog-lb-img');
+      let cameraFlashTimer;
+
+      photographyView.addEventListener('click', e => {
+        const img = e.target.closest('.photog__img');
+        if (!img) return;
+        lbImg.src = img.src;
+        lb.classList.add('is-open');
+        document.body.classList.add('is-camera-flash');
+        clearTimeout(cameraFlashTimer);
+        cameraFlashTimer = setTimeout(() => document.body.classList.remove('is-camera-flash'), 180);
+      });
+
+      /* Scroll reveal — each photo fades in only when it enters the viewport */
+      const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const img = e.target;
+          const idx = +img.dataset.idx;
+          img.style.transitionDelay = `${(idx % 4) * 60}ms`;
+          img.classList.add('is-visible');
+          revealObs.unobserve(img);
+        });
+      }, {
+        threshold: 0.01,
+        rootMargin: '0px 0px -40px 0px'   /* only trigger once image is 40px inside bottom of viewport */
+      });
+
+      photographyView.querySelectorAll('.photog__img').forEach(img => revealObs.observe(img));
+    }
+
+    function route() {
+      const id = location.hash.replace('#', '');
+      if (id === 'work') { renderWork(); showView('work'); return; }
+      if (id === 'about') { renderAbout(); showView('about'); return; }
+      if (id === 'photography') { renderPhotography(); showView('photography'); return; }
+      const proj = PROJECTS.find(p => p.id === id);
+      if (proj) { renderDetail(proj); showView('detail'); }
+      else { showView('home'); }
+    }
+
+    window.addEventListener('hashchange', route);
+    route();  // handle initial load / deep link
+  </script>
+
+</body>
+
+</html>
