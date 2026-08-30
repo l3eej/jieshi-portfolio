@@ -3872,6 +3872,11 @@ Outside of work, I am also a <strong class="bio-highlight-secondary">photographe
     route();  // handle initial load / deep link
   </script>
 
+  <!-- Vercel Web Analytics — static-site install (no build step, so the
+       npm/React package doesn't apply here); only fires once actually
+       deployed on Vercel, harmless no-op locally or on any other host. -->
+  <script defer src="/_vercel/insights/script.js"></script>
+
 </body>
 
 </html>
